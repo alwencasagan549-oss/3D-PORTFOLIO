@@ -1,36 +1,101 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 3D Portfolio
 
-## Getting Started
+A modern, interactive personal portfolio website built to showcase web development skills, projects, and experience. Featuring 3D visuals, smooth animations, and a polished dark theme — designed to leave a lasting impression on visitors.
 
-First, run the development server:
+## 🎯 What Is This?
+
+This is a **full-featured portfolio website** built as a single-page application using **Next.js 16** and **React 19**. It serves as a professional online presence, presenting a developer's identity, skills, experience, and work in a visually engaging way.
+
+### Sections Included
+
+- **🏠 Home** — Hero section with a 3D Spline viewer and animated introduction
+- **📋 About** — Personal background, bio, and what drives the work
+- **💼 Experience** — Professional timeline and career highlights
+- **🛠 Tech Stack** — Skills and technologies mastered, visually presented
+- **🔑 Key Builds** — Highlighted projects and notable work
+- **📁 Projects** — Curated portfolio of completed projects
+- **📬 Contact** — Contact form and connection options
+- **🖱 Canvas Cursor** — Custom interactive cursor effects for a unique feel
+
+### Design Highlights
+
+- **Spline 3D Integration** — WebGL-powered 3D visuals in the hero and background
+- **Curved Loop Animations** — Smooth, eye-catching animated transitions between sections
+- **Custom Canvas Cursor** — A dynamically styled cursor that reacts to scroll and movement
+- **Scroll-Triggered Animations** — Sections animate into view as the user scrolls using `react-intersection-observer`
+- **Dark Theme** — A cohesive, modern dark UI optimized for visual impact
+
+## 🛠 Tech Stack
+
+| Technology | Version | Purpose |
+|---|---|---|
+| **Next.js** | 16 (App Router) | Framework & routing |
+| **React** | 19 | UI components |
+| **TypeScript** | 5 | Type safety |
+| **Tailwind CSS** | v4 | Styling & layout |
+| **@splinetool** | react-spline, runtime, viewer | 3D rendering |
+| **Framer Motion** | 12 | Animations |
+| **clsx / tailwind-merge** | — | Class name utilities |
+| **react-intersection-observer** | 11 | Scroll-triggered effects |
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) (v20+ recommended)
+
+### Install & Run
 
 ```bash
+# Install dependencies
+npm install
+
+# Start development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to view the portfolio. Edit `app/page.tsx` to get started.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📁 Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+app/                  # Next.js App Router (pages, layouts, globals)
+components/           # Reusable React components
+  ├── HomeSection.tsx        # Hero / landing section
+  ├── AboutSection.tsx       # Bio & background
+  ├── ExperienceSection.tsx  # Career timeline
+  ├── TechStackSection.tsx   # Skills showcase
+  ├── KeyBuildsSection.tsx   # Notable projects
+  ├── ProjectSection.tsx     # Project portfolio
+  ├── ContactSection.tsx     # Contact form
+  ├── Header.tsx             # Navigation bar
+  ├── SplineBackground.tsx   # 3D background effect
+  ├── SplineViewer.tsx       # Interactive 3D viewer
+  ├── CurvedLoop.tsx         # Animated loop component
+  ├── CanvasCursor.tsx       # Custom cursor behavior
+  └── ui/                   # Shared UI primitives
+public/               # Static assets (images, videos)
+docs/                 # Documentation
+lib/                  # Utility libraries
+next.config.ts        # Next.js configuration
+tsconfig.json         # TypeScript configuration
+tailwind.config.ts    # Tailwind CSS configuration
+package.json          # Dependencies & scripts
+```
 
-## Learn More
+## 📜 Available Scripts
 
-To learn more about Next.js, take a look at the following resources:
+| Script | Description |
+|---|---|
+| `dev` | Start development server with hot reload |
+| `build` | Build the project for production |
+| `start` | Start the production server |
+| `lint` | Run ESLint to check for issues |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🌍 Deployment
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The easiest way to deploy is with [Vercel](https://vercel.com). See the [Next.js deployment docs](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
-## Deploy on Vercel
+## 📄 License
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is open source and available under the [MIT License](LICENSE).

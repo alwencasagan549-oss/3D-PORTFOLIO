@@ -1,20 +1,18 @@
 'use client';
 
-import { memo, useState, useEffect } from 'react';
+import { memo, useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import dynamic from 'next/dynamic';
-import { Leapfrog } from 'ldrs/react';
-import 'ldrs/react/Leapfrog.css';
-
-// Load Spline components only on client, with a simple fallback
-const SplineBackground = dynamic(() => import('./SplineBackground'), {
-  ssr: false,
-  loading: () => <div className="fixed inset-0 bg-black z-0" />,
-});
+import Header from '@/components/Header';
+import CanvasCursor from '@/components/CanvasCursor';
+import {
+  fadeInUpVariants,
+  staggerContainerVariants,
+} from '@/components/ui/motion-variants';
 
 const SplineViewer = dynamic(() => import('./SplineViewer'), {
   ssr: false,
-  loading: () => <div className="absolute right-0 top-0 h-full w-1/2 bg-black z-10" />,
+  loading: () => null,
 });
 
 function SocialIcon({ name, className = "" }: { name: string; className?: string }) {
@@ -68,14 +66,12 @@ function HomeSectionComponent() {
   const [isTyping, setIsTyping] = useState(true);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isJumping, setIsJumping] = useState(false);
-  const [bgLoaded, setBgLoaded] = useState(false);
   const [robotLoaded, setRobotLoaded] = useState(false);
-  const [animationReady, setAnimationReady] = useState(false);
-  const allLoaded = bgLoaded && robotLoaded;
-  const contentReady = allLoaded && animationReady;
+  const [contentReady, setContentReady] = useState(false);
+  const allLoaded = robotLoaded;
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
+  const containerVariants: typeof staggerContainerVariants = {
+    ...staggerContainerVariants,
     visible: {
       opacity: 1,
       transition: {
@@ -85,58 +81,49 @@ function HomeSectionComponent() {
     },
   };
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
+  const itemVariants: typeof fadeInUpVariants = {
+    ...fadeInUpVariants,
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        type: "spring" as const,
+        type: "spring",
         damping: 12,
         stiffness: 100,
       },
     },
   };
 
-  useEffect(() => {
-    const onMove = (e: MouseEvent) => setMousePos({ x: e.clientX, y: e.clientY });
-    window.addEventListener('mousemove', onMove);
-    return () => window.removeEventListener('mousemove', onMove);
-  }, []);
-
   // Jump animation loop
   useEffect(() => {
     const interval = setInterval(() => {
       setIsJumping(true);
-      // Stop the jump after 400ms
       setTimeout(() => setIsJumping(false), 400);
     }, 3000);
     return () => clearInterval(interval);
   }, []);
 
-  // Set animationReady after robot loads (wait for entrance animation)
+  // Reveal content as soon as the 3D scene signals ready
   useEffect(() => {
-    if (robotLoaded) {
-      const timer = setTimeout(() => setAnimationReady(true), 2000);
-      return () => clearTimeout(timer);
-    }
-  }, [robotLoaded]);
+    if (!allLoaded) return;
+    setContentReady(true);
+  }, [allLoaded]);
 
-  // Fallback timer for loading
+  // Hard fallback in case onLoad never fires
   useEffect(() => {
     const fallback = setTimeout(() => {
-      if (!allLoaded) {
-        setBgLoaded(true);
+      if (!contentReady) {
         setRobotLoaded(true);
+        setContentReady(true);
       }
-    }, 10000); // Force load after 10s
+    }, 10000);
     return () => clearTimeout(fallback);
-  }, [allLoaded]);
+  }, [contentReady]);
 
   useEffect(() => {
     if (!contentReady) return;
 
-    const roles = ['Full-Stack Software Engineer', 'Web Developer','Networking','Technician','System Architect'];
+    const roles = ['Full-Stack Software Engineer', 'Web Developer', 'Networking', 'Technician', 'System Architect'];
     let roleIndex = 0;
     let charIndex = 0;
     let isDeleting = false;
@@ -171,37 +158,47 @@ function HomeSectionComponent() {
     return () => clearTimeout(timeout);
   }, [contentReady]);
 
-  const btn1Class = `group relative px-8 py-4 rounded-xl font-bold text-base transition-all duration-300 bg-white text-black hover:text-white hover:bg-gradient-to-r hover:from-[#ff0040] hover:via-[#ff6a00] hover:to-[#00d4ff] shadow-xl hover:shadow-[0_0_40px_rgba(255,0,64,0.4)] active:scale-95 ${isJumping ? 'jump-active' : ''}`;
+  const btn1Class = `group cursor-pointer relative px-8 py-4 rounded-xl font-bold text-base transition-all duration-300 bg-white text-black hover:text-white hover:bg-gradient-to-r hover:from-[#ff0040] hover:via-[#ff6a00] hover:to-[#00d4ff] shadow-xl hover:shadow-[0_0_40px_rgba(255,0,64,0.4)] active:scale-95 ${isJumping ? 'jump-active' : ''}`;
 
-  const btn2Class = `px-8 py-4 rounded-xl font-medium text-base transition-all duration-300 relative overflow-hidden group border border-gray-800/50 bg-black/50 text-gray-300 hover:border-transparent hover:shadow-[0_0_30px_rgba(255,0,64,0.3)] active:scale-95 ${isJumping ? 'jump-active-delayed' : ''}`;
+  const btn2Class = `px-8 py-4 rounded-xl font-medium text-base transition-all duration-300 relative overflow-hidden group cursor-pointer border border-gray-800/50 bg-black/50 text-gray-300 hover:border-transparent hover:shadow-[0_0_30px_rgba(255,0,64,0.3)] active:scale-95 ${isJumping ? 'jump-active-delayed' : ''}`;
 
   return (
-    <section id="home" className="min-h-screen bg-black relative overflow-hidden">
+    <section id="home" className="min-h-screen relative overflow-hidden">
       {/* Custom AC Loading Screen */}
       {!contentReady && (
-        <div className="fixed inset-0 z-50 bg-black flex flex-col items-center justify-center gap-6">
+        <div className="fixed inset-0 z-50 bg-black flex flex-col items-center justify-center gap-8">
           {/* Brand Logo */}
-          <div className="text-6xl font-bold font-orbitron bg-gradient-to-r from-[#ff0040] to-[#00d4ff] bg-clip-text text-transparent">
+          <div className="text-7xl font-bold font-orbitron text-gradient-neon animate-pulse">
             AC
           </div>
 
-          {/* New Animated Loader */}
-          <Leapfrog
-            size="50"
-            speed="2.5"
-            color="#00d4ff"
-          />
+          {/* Loader */}
+          <div className="relative w-16 h-16">
+            <div className="absolute inset-0 rounded-full border-2 border-transparent border-t-cyan-400 border-r-cyan-400 animate-spin" style={{ animationDuration: '1s' }} />
+            <div className="absolute inset-2 rounded-full border-2 border-transparent border-b-orange-500 border-l-orange-500 animate-spin" style={{ animationDuration: '1.5s', animationDirection: 'reverse' }} />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="w-2 h-2 rounded-full bg-cyan-400 animate-ping" />
+            </div>
+          </div>
 
-          {/* Loading Text */}
-          <p className="text-xs font-mono text-gray-500 animate-pulse tracking-[0.2em]">
-            LOADING INTERFACE...
-          </p>
+          {/* Status */}
+          <div className="flex flex-col items-center gap-3">
+            <p className="text-xs font-mono text-gray-400 tracking-[0.3em] uppercase">
+              {!robotLoaded && 'Loading 3D Assets...'}
+              {robotLoaded && 'Preparing Interface...'}
+            </p>
+
+            {/* Progress bar */}
+            <div className="w-48 h-0.5 bg-gray-800 rounded-full overflow-hidden">
+              <div
+                className="h-full bg-gradient-neon rounded-full transition-all duration-500"
+                style={{ width: `${robotLoaded ? 100 : 0}%` }}
+              />
+            </div>
+          </div>
         </div>
       )}
 
-      {/* Background Scene */}
-      <SplineBackground onLoad={() => setBgLoaded(true)} />
-      
       {/* Tech Overlay */}
       <div className="tech-overlay" />
       
@@ -219,11 +216,17 @@ function HomeSectionComponent() {
       
       {/* Main Content Container */}
       <motion.div
-        className={`relative z-20 min-h-screen flex items-center transition-opacity duration-1000 pointer-events-none ${contentReady ? 'opacity-100' : 'opacity-0'}`}
+        className={`relative z-20 min-h-screen flex items-center transition-opacity duration-1000 ${contentReady ? 'opacity-100' : 'opacity-0'}`}
         initial="hidden"
         animate={contentReady ? "visible" : "hidden"}
         variants={containerVariants}
       >
+        {contentReady && (
+          <>
+            <CanvasCursor />
+            <Header />
+          </>
+        )}
         <div className="max-w-[1440px] mx-auto px-6 md:px-8 w-full">
           <div className="flex flex-col md:flex-row items-center justify-between pt-24 pb-12">
             {/* Left Side Content */}
@@ -232,14 +235,14 @@ function HomeSectionComponent() {
               <motion.div variants={itemVariants}>
                 <div className={`relative inline-flex items-center gap-2.5 px-5 py-2 rounded-full mb-10 fade-in-up overflow-hidden ${contentReady ? 'fade-delay-1' : ''}`}>
                 {/* Gradient border using pseudo element */}
-                <div className="absolute inset-0 rounded-full p-[1px] bg-gradient-to-r from-[#ff0040] via-[#ff6a00] to-[#00d4ff]">
+                <div className="absolute inset-0 rounded-full p-[1px] bg-gradient-neon">
                   <div className="w-full h-full rounded-full bg-black/80 backdrop-blur-sm" />
                 </div>
 
                 {/* Content */}
                 <div className="relative flex items-center gap-2.5">
                   <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse glow-dot"></div>
-                  <span className="text-xs md:text-sm font-mono uppercase tracking-[0.2em] bg-gradient-to-r from-[#ff0040] to-[#00d4ff] bg-clip-text text-transparent font-medium">
+                  <span className="text-xs md:text-sm font-mono uppercase tracking-[0.2em] text-gradient-neon-short font-medium">
                     Available for work
                   </span>
                 </div>
@@ -250,8 +253,8 @@ function HomeSectionComponent() {
               <motion.div variants={itemVariants}>
                 <div className={`mb-14 fade-in-up ${contentReady ? 'fade-delay-2' : ''}`}>
                 <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[8rem] font-bold leading-[0.85] tracking-tighter uppercase font-orbitron">
-                  <span className="tech-text block mb-4">Alwen</span>
-                  <span className="tech-text block">Casagan</span>
+                  <span className="text-gradient-neon animate-gradient-shift block mb-4">Alwen</span>
+                  <span className="text-gradient-neon animate-gradient-shift block">Casagan</span>
                 </h1>
               </div>
               </motion.div>
@@ -259,9 +262,12 @@ function HomeSectionComponent() {
               {/* Role */}
               <motion.div variants={itemVariants}>
                 <div className={`min-h-[3rem] mb-10 fade-in-up ${contentReady ? 'fade-delay-3' : ''}`}>
-                <p className="text-xl md:text-2xl font-bold font-orbitron tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-[#ff0040] via-[#ff6a00] to-[#00d4ff] whitespace-nowrap min-w-[200px]">
-                  {roleText}
-                  <span className="inline-block w-[2px] h-[1.2em] bg-cyan-400 ml-2 animate-pulse shadow-[0_0_10px_#00d4ff,0_0_20px_#00d4ff] align-middle"></span>
+                <p
+                  aria-label={`Current role: ${roleText || 'Full-Stack Software Engineer'}`}
+                  className="text-xl md:text-2xl font-bold font-orbitron tracking-tight text-gradient-neon whitespace-nowrap min-w-[200px]"
+                >
+                  <span aria-hidden="true">{roleText}</span>
+                  <span aria-hidden="true" className="inline-block w-[2px] h-[1.2em] bg-cyan-400 ml-2 animate-pulse shadow-[0_0_10px_#00d4ff,0_0_20px_#00d4ff] align-middle"></span>
                 </p>
               </div>
               </motion.div>
@@ -271,13 +277,13 @@ function HomeSectionComponent() {
                 <div className={`flex flex-wrap justify-center md:justify-start gap-5 mb-16 pointer-events-auto fade-in-up ${contentReady ? 'fade-delay-4' : ''}`}>
 
                 {/* Download CV Button */}
-                <button className={btn1Class}>
+                <a href="/api/download" aria-label="Download my resume as PDF" className={btn1Class}>
                   Download CV
-                </button>
+                </a>
 
                 {/* View Projects Button */}
-                <button className={btn2Class}>
-                  <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-r from-[#ff0040] to-[#00d4ff]"></div>
+                <button aria-label="View my project portfolio" className={btn2Class}>
+                  <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-neon-short"></div>
                   <div className="relative z-10 group-hover:text-white transition-colors duration-300">
                     View Projects
                   </div>
@@ -292,19 +298,20 @@ function HomeSectionComponent() {
                 {/* Social Icons */}
                 <div className="flex gap-4">
                   {[
-                    { href: "https://github.com/alwencasagan549-oss", icon: "github" },
-                    { href: "https://linkedin.com", icon: "linkedin" },
-                    { href: "https://facebook.com", icon: "facebook" }
+                    { href: "https://github.com/alwencasagan549-oss", icon: "github", label: "Visit my GitHub profile" },
+                    { href: "https://linkedin.com", icon: "linkedin", label: "Visit my LinkedIn profile" },
+                    { href: "https://facebook.com", icon: "facebook", label: "Visit my Facebook profile" }
                   ].map((social) => (
                     <a
                       key={social.icon}
                       href={social.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 bg-black/40 border border-gray-700/50 hover:border-transparent hover:shadow-[0_0_20px_rgba(255,0,64,0.3)] relative overflow-hidden icon-glow"
+                      aria-label={social.label}
+                      className="group cursor-pointer w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 bg-black/40 border border-gray-700/50 hover:border-transparent hover:shadow-[0_0_20px_rgba(255,0,64,0.3)] relative overflow-hidden icon-glow"
                     >
                       {/* Gradient Border on Hover (Using pseudo-element trick) */}
-                      <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-[1.5px] bg-gradient-to-r from-[#ff0040] via-[#ff6a00] to-[#00d4ff]">
+                      <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-[1.5px] bg-gradient-neon">
                         <div className="w-full h-full rounded-xl bg-black" />
                       </div>
 
@@ -327,13 +334,15 @@ function HomeSectionComponent() {
                     { label: "Tech Stack", val: "10+" }
                   ].map((stat, index) => (
                     <div key={stat.label} className="group cursor-default text-center md:text-left">
-                      {/* Stat Number with Gradient and Glow */}
-                      <div className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#ff0040] via-[#ff6a00] to-[#00d4ff] leading-none mb-1.5 group-hover:scale-105 transition-transform duration-300">
-                        {stat.val}
+                      {/* Stat Number with Gradient and Glow - scale on inner span to avoid layout shift */}
+                      <div className="text-3xl font-bold text-gradient-neon leading-none mb-1.5 overflow-hidden">
+                        <span className="inline-block transition-transform duration-300 group-hover:scale-105 origin-left">
+                          {stat.val}
+                        </span>
                       </div>
 
                       {/* Stat Label with Gradient */}
-                      <div className="text-[10px] font-mono uppercase tracking-[0.2em] text-transparent bg-clip-text bg-gradient-to-r from-gray-400 to-gray-500 group-hover:from-[#ff6a00] group-hover:to-[#00d4ff] transition-all duration-300">
+                      <div className="text-[10px] font-mono uppercase tracking-[0.2em] text-gray-400 group-hover:text-cyan-400 transition-colors duration-300">
                         {stat.label}
                       </div>
                     </div>
@@ -350,7 +359,11 @@ function HomeSectionComponent() {
       </motion.div>
       
       {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce pointer-events-auto">
+      <div
+        role="note"
+        aria-label="Scroll down for more content"
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce pointer-events-auto"
+      >
         <div className="w-6 h-10 border-2 border-gray-500 rounded-full flex justify-center">
           <div className="w-1 h-2 bg-cyan-400 rounded-full mt-2 animate-pulse"></div>
         </div>

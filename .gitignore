@@ -36,6 +36,21 @@ yarn-error.log*
 # vercel
 .vercel
 
+# claude (IDE config, not needed for deployment)
+.claude/
+
+# docs (review images only, not part of site)
+/docs/about-before.png
+/docs/about-current.jpeg
+/docs/superpowers/
+
+# skills (empty, not needed)
+/skills/
+skills-lock.json
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# build artifacts
+tsconfig.tsbuildinfo

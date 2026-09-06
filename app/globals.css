@@ -1,5 +1,52 @@
 @import "tailwindcss";
 
+:root {
+  --color-neon-cyan: #00d4ff;
+  --color-neon-red: #ff0040;
+  --color-neon-orange: #ff6a00;
+  --gradient-neon: linear-gradient(90deg, #ff0040, #ff6a00, #00d4ff);
+  --gradient-neon-vertical: linear-gradient(180deg, #ff0040, #ff6a00, #00d4ff);
+  --gradient-neon-short: linear-gradient(90deg, #ff0040, #00d4ff);
+}
+
+/* Reusable gradient utilities (replaces inline bg-gradient-to-r from-[#ff0040]...) */
+.bg-gradient-neon {
+  background-image: var(--gradient-neon);
+}
+
+.bg-gradient-neon-vertical {
+  background-image: var(--gradient-neon-vertical);
+}
+
+.bg-gradient-neon-short {
+  background-image: var(--gradient-neon-short);
+}
+
+.text-gradient-neon {
+  background-image: var(--gradient-neon);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.text-gradient-neon-short {
+  background-image: var(--gradient-neon-short);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* RGB Cursor */
+  * {
+    cursor: url('https://cdn.cursors-4u.net/previews/rgb-cursor-dark-6e1535b0-preview-32.webp') 0 0, auto !important;
+  }
+
+  @media (pointer: coarse) {
+    * {
+      cursor: auto !important;
+    }
+  }
+
 .hero-gradient {
   background: linear-gradient(-45deg, #0a0e1a, #000000, #1a0a2e, #0d1428);
   background-size: 400% 400%;
@@ -103,22 +150,31 @@
 .tech-text {
   background-image: linear-gradient(
     90deg,
-    #ff0040,   /* Red */
-    #ff6a00,   /* Orange */
-    #00d4ff,   /* Cyan */
-    #0088ff,   /* Blue */
-    #ff0040    /* Back to red */
+    #ff0040,
+    #ff0040,
+    #ff4400,
+    #ff6a00,
+    #ffaa00,
+    #00d4ff,
+    #00d4ff,
+    #0088ff,
+    #0044ff,
+    #8800ff,
+    #ff0088,
+    #ff0040,
+    #ff0040
   );
   background-size: 300% auto;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
-  text-shadow: 
-    0 0 20px rgba(255, 0, 64, 0.4),
-    0 0 40px rgba(0, 212, 255, 0.4),
-    0 0 60px rgba(0, 136, 255, 0.2);
-  animation: techShift 6s linear infinite;
+  text-shadow:
+    0 0 10px rgba(255, 0, 64, 0.5),
+    0 0 20px rgba(255, 106, 0, 0.4),
+    0 0 40px rgba(0, 212, 255, 0.3),
+    0 0 80px rgba(0, 136, 255, 0.2);
+  animation: techShift 3s linear infinite;
   display: inline-block;
 }
 
@@ -127,22 +183,26 @@
   100% { background-position: 300% center; }
 }
 
+body {
+  font-family: var(--font-orbitron), sans-serif;
+}
+
 .font-orbitron {
   font-family: var(--font-orbitron);
 }
 
 .tech-overlay {
-  position: fixed;
+  position: absolute;
   inset: 0;
   pointer-events: none;
-  z-index: 5;
+  z-index: 2;
   background:
     repeating-linear-gradient(0deg, transparent 0px, transparent 2px, rgba(0,212,255,0.03) 2px, rgba(0,212,255,0.03) 4px),
     radial-gradient(circle at 50% 50%, transparent 0%, rgba(0,0,0,0.4) 100%);
 }
 
 .robot-glow {
-  position: fixed;
+  position: absolute;
   inset: 0;
   pointer-events: none;
   z-index: 1;
@@ -240,14 +300,167 @@
   100% { background-position: 300% 50%; }
 }
 
+@keyframes nodePulse {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.8); opacity: 1; }
+}
+
+@keyframes gradientShiftText {
+  0% { background-position: 0% center; }
+  50% { background-position: 100% center; }
+  100% { background-position: 0% center; }
+}
+
+.animate-gradient-shift {
+  background-size: 200% auto;
+  animation: gradientShiftText 4s ease-in-out infinite;
+}
+
+@keyframes marqueeScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes orbDrift1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(60px, -40px) scale(1.05); }
+  50% { transform: translate(-30px, -80px) scale(0.95); }
+  75% { transform: translate(-50px, 20px) scale(1.02); }
+}
+
+@keyframes orbDrift2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(-50px, 30px) scale(1.04); }
+  50% { transform: translate(40px, 60px) scale(0.96); }
+  75% { transform: translate(20px, -40px) scale(1.03); }
+}
+
+@keyframes orbDrift3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-40px, -50px) scale(1.06); }
+  66% { transform: translate(50px, 30px) scale(0.94); }
+}
+
+@keyframes orbDrift4 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(30px, -60px) scale(1.03); }
+}
+
+@keyframes orbDrift5 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(40px, 30px) scale(1.05); }
+  66% { transform: translate(-30px, -20px) scale(0.97); }
+}
+
+@keyframes orbDrift6 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-20px, 40px) scale(1.02); }
+}
+
+.marquee-wrapper {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.marquee-track {
+  display: inline-flex;
+  animation: marqueeScroll 25s linear infinite;
+  width: max-content;
+}
+
+.marquee-reverse {
+  animation-direction: reverse;
+}
+
+.marquee-text {
+  animation: neonPulse 2s ease-in-out infinite, neonFlicker 4s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .fade-in-up, .animate-bounce, .animate-pulse, .animate-text-shine, .hero-gradient {
     animation: none;
     opacity: 1;
     transform: none;
   }
+  .marquee-track {
+    animation: none;
+  }
+  .tech-text, .tech-role-text {
+    animation: none;
+  }
+  .tech-text-neon {
+    animation: none;
+  }
+  .header-logo {
+    animation: none;
+  }
+  .header-scanline {
+    animation: none;
+  }
+  .node-pulse {
+    animation: none;
+  }
+  .marquee-text {
+    animation: none;
+  }
+  .orb-drift {
+    animation: none;
+  }
 }
 
 .font-oswald {
   font-family: var(--font-oswald);
+}
+
+.spline-fallback {
+  background:
+    radial-gradient(ellipse at 70% 40%, rgba(0, 212, 255, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 20% 80%, rgba(255, 0, 64, 0.04) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(255, 106, 0, 0.02) 0%, transparent 60%),
+    #05080f;
+}
+
+/* === Phase 1: Neon utility classes === */
+
+.neon-text-glow {
+  text-shadow: 0 0 8px rgba(0, 212, 255, 0.4);
+}
+
+.neon-text-glow-soft {
+  text-shadow: 0 0 5px rgba(0, 212, 255, 0.15);
+}
+
+.neon-text-glow-white {
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.25), 0 0 15px rgba(0, 212, 255, 0.3);
+}
+
+.neon-text-glow-red {
+  text-shadow: 0 0 10px rgba(255, 0, 64, 0.3);
+}
+
+.neon-text-glow-cyan-strong {
+  text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+}
+
+.neon-title-glow {
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.3), 0 0 40px rgba(0, 212, 255, 0.4);
+}
+
+.neon-divider-glow {
+  box-shadow: 0 0 8px rgba(0, 212, 255, 0.5);
+}
+
+.neon-stat-glow-cyan {
+  filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.3));
+}
+
+.neon-stat-glow-orange {
+  filter: drop-shadow(0 0 10px rgba(255, 106, 0, 0.3));
+}
+
+/* Accessible focus ring (keyboard-only) */
+*:focus-visible {
+  outline: 2px solid #00d4ff;
+  outline-offset: 2px;
+  border-radius: 4px;
 }
