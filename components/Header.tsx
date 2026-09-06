@@ -3,14 +3,23 @@
 import { motion } from 'framer-motion';
 import { useState, useEffect, useRef, memo, useCallback } from 'react';
 
-const navItems = ['Home', 'About', 'Experience', 'Tech Stack', 'Projects', 'Contact'];
+const navItems = ['Home', 'About', 'Experience', 'Tech Stack', 'Projects', 'Contact'] as const;
+const sectionIds: Record<string, string> = {
+  'Tech Stack': 'techstack',
+  'Home': 'home',
+  'About': 'about',
+  'Experience': 'experience',
+  'Projects': 'projects',
+  'Contact': 'contact',
+};
 
 function NavLink({ item, activeSection }: { item: string; activeSection: string }) {
-  const isActive = activeSection === item.toLowerCase();
+  const sectionId = sectionIds[item] ?? item.toLowerCase();
+  const isActive = activeSection === sectionId;
 
   return (
     <motion.a
-      href={`#${item.toLowerCase()}`}
+      href={`#${sectionId}`}
       className={`relative text-sm font-mono uppercase tracking-wider transition-colors duration-300 hover:text-cyan-400 cursor-pointer focus-visible:text-cyan-400 ${isActive ? 'text-cyan-400' : 'text-gray-400'} `}
       whileHover={{ y: -2 }}
       transition={{ duration: 0.2 }}
@@ -130,16 +139,18 @@ const Header = memo(function Header() {
         transition={{ duration: 0.3, ease: "easeInOut" }}
         className={`absolute top-full left-0 w-full bg-black/95 backdrop-blur-md border-b border-gray-800/50 p-6 flex flex-col gap-6 md:hidden ${isMobileMenuOpen ? '' : 'pointer-events-none'}`}
       >
-        {navItems.map((item) => (
+        {navItems.map((item) => {
+          const sectionId = sectionIds[item] ?? item.toLowerCase();
+          return (
           <a
             key={item}
-            href={`#${item.toLowerCase()}`}
-            className={`text-sm font-mono uppercase tracking-wider transition-colors duration-300 cursor-pointer ${activeSection === item.toLowerCase() ? 'text-cyan-400' : 'text-gray-400 hover:text-cyan-400'}`}
+            href={`#${sectionId}`}
+            className={`text-sm font-mono uppercase tracking-wider transition-colors duration-300 cursor-pointer ${activeSection === sectionId ? 'text-cyan-400' : 'text-gray-400 hover:text-cyan-400'}`}
             onClick={() => setIsMobileMenuOpen(false)}
           >
             {item}
           </a>
-        ))}
+        );})}
       </motion.div>
 
       {/* Scanline Effect */}
