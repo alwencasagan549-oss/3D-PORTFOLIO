@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/next"
 import type { Metadata } from "next";
 import { Orbitron, Inter } from "next/font/google";
 import Script from "next/script";
@@ -36,6 +37,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://prod.spline.design" />
       </head>
       <body className="min-h-full flex flex-col bg-black">
+        <Analytics />
         {children}
 
         {/* Person microdata — TODO: Replace with actual data */}

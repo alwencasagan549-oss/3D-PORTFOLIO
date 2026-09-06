@@ -54,3 +54,6 @@ next-env.d.ts
 
 # build artifacts
 tsconfig.tsbuildinfo
+
+.vercel
+.env*
