@@ -1,4 +1,5 @@
 import { Analytics } from "@vercel/analytics/next"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import type { Metadata } from "next";
 import { Orbitron, Inter } from "next/font/google";
 import Script from "next/script";
@@ -38,6 +39,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-full flex flex-col bg-black">
         <Analytics />
+        <SpeedInsights />
         {children}
 
         {/* Person microdata — TODO: Replace with actual data */}
