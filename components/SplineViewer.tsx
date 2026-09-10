@@ -37,7 +37,7 @@ export default function SplineViewer({ onLoad }: { onLoad?: (app: any) => void }
   if (hasError) return null;
 
   return (
-    <div className="absolute right-0 top-0 h-full w-1/2 overflow-hidden pointer-events-auto z-10">
+    <div className="absolute inset-x-0 top-0 h-[47svh] w-full overflow-hidden pointer-events-none z-10 md:h-full md:w-1/2 md:left-auto md:right-0 md:pointer-events-auto">
       <Suspense fallback={null}>
         <Spline
           scene="https://prod.spline.design/YGJtFFrJMfW4iK-g/scene.splinecode"
@@ -48,6 +48,7 @@ export default function SplineViewer({ onLoad }: { onLoad?: (app: any) => void }
           }}
         />
       </Suspense>
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#020617/0.45] via-[#07111f/0.15] to-transparent md:hidden" />
     </div>
   );
 }
