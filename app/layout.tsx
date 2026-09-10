@@ -29,6 +29,9 @@ export default function RootLayout({
       className={`${geistSans.variable} ${orbitron.variable} h-full antialiased`}
     >
       <head>
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
         <link rel="preconnect" href="https://prod.spline.design" />
       </head>
       <body className="min-h-full flex flex-col bg-black">
