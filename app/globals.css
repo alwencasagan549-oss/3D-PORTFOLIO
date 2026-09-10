@@ -248,6 +248,26 @@
   }
 }
 
+/* Reduce heavy continuous animation cost on mobile while preserving desktop motion */
+@media (max-width: 768px) {
+  .tech-text,
+  .tech-role-text,
+  .tech-text-neon,
+  .header-logo {
+    animation: none;
+  }
+
+  .hero-gradient {
+    animation: none;
+    background-position: 0% 50%;
+  }
+
+  .animate-gradient-shift {
+    animation: none;
+    background-position: 0% center;
+  }
+}
+
 .font-oswald {
   font-family: var(--font-oswald);
 }

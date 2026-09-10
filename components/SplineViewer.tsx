@@ -1,10 +1,30 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Spline from '@splinetool/react-spline';
 
 export default function SplineViewer({ onLoad }: { onLoad?: (app: any) => void }) {
+  const containerRef = useRef<HTMLDivElement | null>(null);
   const [hasError, setHasError] = useState(false);
+  const [shouldMount, setShouldMount] = useState(false);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldMount(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '200px' }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const originalError = console.error;
@@ -22,7 +42,6 @@ export default function SplineViewer({ onLoad }: { onLoad?: (app: any) => void }
 
   const handleLoad = (splineApp: any) => {
     try {
-      // Hide the logo on the robot's chest
       const logoObject = splineApp.findObjectByName('Logo');
       if (logoObject) {
          logoObject.visible = false;
@@ -36,15 +55,17 @@ export default function SplineViewer({ onLoad }: { onLoad?: (app: any) => void }
   if (hasError) return null;
 
   return (
-    <div className="absolute right-0 top-0 h-full w-1/2 overflow-hidden pointer-events-auto z-10">
-      <Spline
-        scene="https://prod.spline.design/YGJtFFrJMfW4iK-g/scene.splinecode"
-        onLoad={handleLoad}
-        onError={(error) => {
-          console.error('Spline error:', error);
-          setHasError(true);
-        }}
-      />
+    <div ref={containerRef} className="absolute right-0 top-0 h-full w-1/2 overflow-hidden pointer-events-auto z-10">
+      {shouldMount && (
+        <Spline
+          scene="https://prod.spline.design/YGJtFFrJMfW4iK-g/scene.splinecode"
+          onLoad={handleLoad}
+          onError={(error) => {
+            console.error('Spline error:', error);
+            setHasError(true);
+          }}
+        />
+      )}
     </div>
   );
 }

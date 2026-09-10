@@ -10,7 +10,13 @@ const useCanvasCursor = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-     let ctx = canvas.getContext('2d');
+    const hasFinePointer = window.matchMedia('(pointer: fine)').matches;
+    if (!hasFinePointer) {
+      canvas.remove();
+      return;
+    }
+
+    let ctx = canvas.getContext('2d');
     if (!ctx) return;
 
     function n(e) {

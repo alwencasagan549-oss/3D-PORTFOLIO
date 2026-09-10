@@ -1,13 +1,11 @@
 'use client';
 
-import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [jumpTrigger, setJumpTrigger] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,14 +23,6 @@ export default function Header() {
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  // Jump animation loop for navigation
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setJumpTrigger((prev) => !prev);
-    }, 2000);
-    return () => clearInterval(interval);
   }, []);
 
   const navItems = ['Home', 'Projects', 'About', 'Contact'];
@@ -53,66 +43,40 @@ export default function Header() {
 
       <div className={`max-w-[1440px] mx-auto px-6 md:px-8 flex items-center justify-between transition-all duration-300 ${scrolled ? 'h-16' : 'h-20'}`}>
 
-        {/* Left: Logo with Gradient & Glow */}
-        <motion.a
+        {/* Left: Logo */}
+        <a
           href="#home"
-          className={`font-bold font-orbitron tracking-tighter bg-gradient-to-r from-[#ff0040] via-[#ff6a00] to-[#00d4ff] bg-clip-text text-transparent header-logo transition-all duration-300 ${scrolled ? 'text-2xl' : 'text-3xl'}`}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+          className={`font-bold font-orbitron tracking-tighter bg-gradient-to-r from-[#ff0040] via-[#ff6a00] to-[#00d4ff] bg-clip-text text-transparent header-logo transition-all duration-300 hover:scale-105 active:scale-95 ${scrolled ? 'text-2xl' : 'text-3xl'}`}
         >
           AC
-        </motion.a>
+        </a>
 
-        {/* Navigation Links (Desktop) with Sequential Jump */}
+        {/* Navigation Links (Desktop) */}
         <nav className="hidden md:flex gap-6">
-          <motion.div
-            key={jumpTrigger ? 'jump' : 'idle'}
-            className="flex gap-6"
-            initial="hidden"
-            animate="visible"
-            variants={{
-              hidden: { opacity: 1 },
-              visible: {
-                transition: {
-                  staggerChildren: 0.08,
-                  when: "beforeChildren"
-                }
-              }
-            }}
-          >
-            {navItems.map((item) => (
-              <motion.a
+          {navItems.map((item) => {
+            const sectionId = item.toLowerCase();
+            const isActive = activeSection === sectionId;
+            return (
+              <a
                 key={item}
-                href={`#${item.toLowerCase()}`}
-                variants={{
-                  hidden: { y: 0 },
-                  visible: {
-                    y: [0, -10, 0],
-                    transition: {
-                      duration: 0.35,
-                      ease: "easeInOut",
-                    }
-                  }
-                }}
-                className={`relative text-sm font-mono uppercase tracking-wider transition-colors duration-300 hover:text-cyan-400 ${activeSection === item.toLowerCase() ? 'text-cyan-400' : 'text-gray-400'} ${scrolled ? 'text-xs' : 'text-sm'}`}
+                href={`#${sectionId}`}
+                className={`relative text-sm font-mono uppercase tracking-wider transition-colors duration-300 hover:text-cyan-400 ${isActive ? 'text-cyan-400' : 'text-gray-400'} ${scrolled ? 'text-xs' : 'text-sm'}`}
               >
                 {item}
-                {activeSection === item.toLowerCase() && (
-                  <motion.div
-                    layoutId="activeDot"
-                    className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-cyan-400 shadow-[0_0_10px_#00d4ff,0_0_20px_#00d4ff]"
-                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                  />
+                {isActive && (
+                  <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-cyan-400 shadow-[0_0_10px_#00d4ff,0_0_20px_#00d4ff]" />
                 )}
-              </motion.a>
-            ))}
-          </motion.div>
+              </a>
+            );
+          })}
         </nav>
 
         {/* Mobile Menu Toggle */}
         <button
           className="md:hidden text-gray-400 hover:text-cyan-400 transition-colors duration-300"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label="Toggle menu"
+          aria-expanded={isMobileMenuOpen}
+          onClick={() => setIsMobileMenuOpen((prev) => !prev)}
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={isMobileMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
@@ -121,28 +85,23 @@ export default function Header() {
       </div>
 
       {/* Mobile Menu Overlay */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="absolute top-full left-0 w-full bg-black/95 backdrop-blur-md border-b border-gray-800/50 p-6 flex flex-col gap-6 md:hidden"
-          >
-            {navItems.map((item) => (
+      <div className={`md:hidden transition-all duration-300 ease-in-out ${isMobileMenuOpen ? 'max-h-64 opacity-100' : 'max-h-0 opacity-0 pointer-events-none'} overflow-hidden`}>
+        <div className="absolute top-full left-0 w-full bg-black/95 backdrop-blur-md border-b border-gray-800/50 p-6 flex flex-col gap-6">
+          {navItems.map((item) => {
+            const sectionId = item.toLowerCase();
+            return (
               <a
                 key={item}
-                href={`#${item.toLowerCase()}`}
-                className={`text-sm font-mono uppercase tracking-wider transition-colors duration-300 ${activeSection === item.toLowerCase() ? 'text-cyan-400' : 'text-gray-400 hover:text-cyan-400'}`}
+                href={`#${sectionId}`}
+                className={`text-sm font-mono uppercase tracking-wider transition-colors duration-300 ${activeSection === sectionId ? 'text-cyan-400' : 'text-gray-400 hover:text-cyan-400'}`}
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 {item}
               </a>
-            ))}
-          </motion.div>
-        )}
-      </AnimatePresence>
+            );
+          })}
+        </div>
+      </div>
 
       {/* Scanline Effect */}
       <div className="header-scanline" />
