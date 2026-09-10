@@ -45,10 +45,17 @@ export default function CanvasCursor() {
     const particles: { x: number; y: number; r: number; vx: number; vy: number; life: number; hue: number }[] = [];
     let raf = 0;
     let globalHue = 0;
-    let lastMoveTime = Date.now();
+
+    const clearParticles = () => {
+      particles.length = 0;
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      if (raf !== 0) {
+        cancelAnimationFrame(raf);
+        raf = 0;
+      }
+    };
 
     const onMove = (e: MouseEvent) => {
-      lastMoveTime = Date.now();
       for (let i = 0; i < SPAWN_RATE; i++) {
         if (particles.length >= MAX_PARTICLES) {
           particles.shift();
@@ -63,15 +70,14 @@ export default function CanvasCursor() {
           hue: globalHue + Math.random() * 40 - 20,
         });
       }
-      // Revive the loop after the idle timeout cancelled it
       if (raf === 0) {
         raf = requestAnimationFrame(render);
       }
     };
 
     const render = () => {
-      if (Date.now() - lastMoveTime > 300) {
-        raf = 0;
+      if (particles.length === 0) {
+        clearParticles();
         return;
       }
 
@@ -103,11 +109,23 @@ export default function CanvasCursor() {
     };
 
     window.addEventListener('mousemove', onMove);
+    const onVisibilityChange = () => {
+      if (document.hidden) clearParticles();
+    };
+
+    window.addEventListener('blur', clearParticles);
+    document.addEventListener('mouseleave', clearParticles);
+    document.addEventListener('visibilitychange', onVisibilityChange);
+    window.addEventListener('pagehide', clearParticles);
     raf = requestAnimationFrame(render);
 
     return () => {
-      cancelAnimationFrame(raf);
+      clearParticles();
       window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('blur', clearParticles);
+      document.removeEventListener('mouseleave', clearParticles);
+      document.removeEventListener('visibilitychange', onVisibilityChange);
+      window.removeEventListener('pagehide', clearParticles);
       window.removeEventListener('resize', resize);
     };
   }, []);

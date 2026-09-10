@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useState, useEffect, useRef } from 'react';
+import { memo, useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence, type Variants } from 'framer-motion';
 
@@ -23,6 +23,7 @@ const projects = [
     technologies: ['Python', 'TensorFlow', 'NLP', 'Node.js', 'Speech Recognition'],
     githubUrl: 'https://github.com/alwencasagan549-oss',
     liveUrl: 'https://alvin-ai.example.com',
+    image: '/images/alvin-ai-voice-assistant.svg',
     year: '2025'
   },
   {
@@ -41,7 +42,7 @@ const projects = [
     description: 'A premium, production-ready Assignment Portal for students and educators with comprehensive assignment management, tracking, and collaboration features.',
     technologies: ['PHP', 'MySQL', 'Bootstrap', 'JavaScript', 'XAMPP'],
     githubUrl: 'https://github.com/alwencasagan549-oss/EduPortal',
-    liveUrl: 'https://eduportal.example.com',
+    liveUrl: 'https://reesnhs.l.cd',
     image: '/images/eduportal.png',
     year: '2025'
   },
@@ -52,6 +53,7 @@ const projects = [
     technologies: ['JavaScript', 'Node.js', 'MongoDB', 'Express', 'EJS'],
     githubUrl: 'https://github.com/alwencasagan549-oss/IBS',
     liveUrl: 'https://ibs.example.com',
+    image: '/images/inventory-borrowing-system.svg',
     year: '2025'
   },
   {
@@ -61,6 +63,7 @@ const projects = [
     technologies: ['Svelte', 'JavaScript', 'Real-time', 'Firebase', 'CSS'],
     githubUrl: 'https://github.com/alwencasagan549-oss/AllWhenQuiz',
     liveUrl: 'https://allwhenquiz.example.com',
+    image: '/images/allwhen-quiz.svg',
     year: '2025'
   }
 ];
@@ -81,19 +84,14 @@ const cardVariants: Variants = {
   }
 };
 
-const AUTO_ADVANCE_INTERVAL = 5000;
-
 function ProjectSectionComponent() {
   const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
-  const [isHovering, setIsHovering] = useState(false);
-  const [progress, setProgress] = useState(0);
 
   const goToProject = (index: number) => {
     if (isAnimating) return;
     setIsAnimating(true);
     setCurrentProjectIndex(index);
-    setProgress(0);
     setTimeout(() => setIsAnimating(false), 900);
   };
 
@@ -105,68 +103,6 @@ function ProjectSectionComponent() {
     goToProject(currentProjectIndex === 0 ? projects.length - 1 : currentProjectIndex - 1);
   };
 
-  const sectionRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          const progressInterval = setInterval(() => {
-            setProgress((prev) => {
-              if (prev >= AUTO_ADVANCE_INTERVAL) {
-                return 0;
-              }
-              return prev + 100;
-            });
-          }, 100);
-
-          const advanceTimeout = setTimeout(() => {
-            nextProject();
-          }, AUTO_ADVANCE_INTERVAL);
-
-          return () => {
-            clearInterval(progressInterval);
-            clearTimeout(advanceTimeout);
-          };
-        }
-      },
-      { root: null, threshold: 0.5 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
-
-  useEffect(() => {
-    if (isHovering || isAnimating) {
-      setProgress(0);
-      return;
-    }
-
-    const progressInterval = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= AUTO_ADVANCE_INTERVAL) {
-          return 0;
-        }
-        return prev + 100;
-      });
-    }, 100);
-
-    const advanceTimeout = setTimeout(() => {
-      nextProject();
-    }, AUTO_ADVANCE_INTERVAL);
-
-    return () => {
-      clearInterval(progressInterval);
-      clearTimeout(advanceTimeout);
-    };
-  }, [currentProjectIndex, isHovering, isAnimating]);
-
   const currentProject = projects[currentProjectIndex];
 
   return (
@@ -174,7 +110,6 @@ function ProjectSectionComponent() {
       id="projects"
       className="w-full relative overflow-hidden pt-16 md:pt-24 pb-2"
       aria-label="Project Showcase"
-      ref={sectionRef}
     >
       {/* Subtle background glow */}
       <div
@@ -214,10 +149,7 @@ function ProjectSectionComponent() {
         </motion.div>
 
         {/* Project Cards Container */}
-        <div className="relative"
-          onMouseEnter={() => setIsHovering(true)}
-          onMouseLeave={() => setIsHovering(false)}
-        >
+        <div className="relative">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentProject.id}
@@ -363,16 +295,6 @@ function ProjectSectionComponent() {
               </button>
             ))}
           </div>
-
-          {/* Progress Bar */}
-          {!isHovering && !isAnimating && (
-            <div className="mt-4 h-0.5 bg-gray-800/50 rounded-full overflow-hidden max-w-[200px] mx-auto">
-              <div
-                className="h-full bg-gradient-neon rounded-full transition-all duration-100 ease-linear"
-                style={{ width: `${(progress / AUTO_ADVANCE_INTERVAL) * 100}%` }}
-              />
-            </div>
-          )}
 
           {/* Navigation Buttons */}
           <div className="flex justify-center gap-6 mt-6">

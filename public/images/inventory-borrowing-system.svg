@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Inventory and borrowing management dashboard</title>
+  <desc id="desc">Futuristic inventory management interface with product grid, QR motifs, and analytics panels.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#07101f"/>
+      <stop offset="0.55" stop-color="#0a1024"/>
+      <stop offset="1" stop-color="#160b24"/>
+    </linearGradient>
+    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#00d4ff"/>
+      <stop offset="1" stop-color="#ff0040"/>
+    </linearGradient>
+    <filter id="glow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="18" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <circle cx="1320" cy="760" r="290" fill="#00d4ff" opacity="0.08"/>
+  <circle cx="220" cy="150" r="250" fill="#ff0040" opacity="0.08"/>
+  <g opacity="0.16" fill="none" stroke="#00d4ff" stroke-width="2">
+    <path d="M120 720 H1480"/>
+    <path d="M120 500 H1480"/>
+    <path d="M120 280 H1480"/>
+    <path d="M240 180 V790"/>
+    <path d="M520 180 V790"/>
+    <path d="M800 180 V790"/>
+    <path d="M1080 180 V790"/>
+    <path d="M1360 180 V790"/>
+  </g>
+  <g opacity="0.92">
+    <rect x="110" y="130" width="440" height="650" rx="30" fill="#0b1226" fill-opacity="0.8" stroke="#00d4ff" stroke-opacity="0.35"/>
+    <rect x="590" y="130" width="900" height="235" rx="30" fill="#0b1226" fill-opacity="0.8" stroke="#00d4ff" stroke-opacity="0.28"/>
+    <rect x="590" y="400" width="900" height="380" rx="30" fill="#0b1226" fill-opacity="0.8" stroke="#ff0040" stroke-opacity="0.3"/>
+    <g transform="translate(175 205)">
+      <rect width="120" height="120" rx="18" fill="#0b1226" stroke="#00d4ff" stroke-width="3"/>
+      <path d="M18 18 H52 V52 H18 Z M68 18 H102 V52 H68 Z M18 68 H52 V102 H18 Z M68 68 H102 V86 H68 Z M68 102 H102 V120 H68 Z" fill="#00d4ff" opacity="0.9"/>
+    </g>
+    <g transform="translate(325 205)">
+      <rect width="120" height="120" rx="18" fill="#0b1226" stroke="#ff0040" stroke-width="3" opacity="0.75"/>
+      <path d="M18 18 H52 V52 H18 Z M68 18 H102 V52 H68 Z M18 68 H52 V102 H18 Z M68 68 H102 V86 H68 Z M68 102 H102 V120 H68 Z" fill="#ff0040" opacity="0.8"/>
+    </g>
+    <g transform="translate(175 365)">
+      <rect width="120" height="120" rx="18" fill="#0b1226" stroke="#00d4ff" stroke-width="3" opacity="0.65"/>
+      <path d="M18 18 H52 V52 H18 Z M68 18 H102 V52 H68 Z M18 68 H52 V102 H18 Z M68 68 H102 V86 H68 Z M68 102 H102 V120 H68 Z" fill="#00d4ff" opacity="0.7"/>
+    </g>
+    <g transform="translate(325 365)">
+      <rect width="120" height="120" rx="18" fill="#0b1226" stroke="#ff0040" stroke-width="3" opacity="0.65"/>
+      <path d="M18 18 H52 V52 H18 Z M68 18 H102 V52 H68 Z M18 68 H52 V102 H18 Z M68 68 H102 V86 H68 Z M68 102 H102 V120 H68 Z" fill="#ff0040" opacity="0.7"/>
+    </g>
+    <g fill="url(#cyan)" filter="url(#glow)">
+      <rect x="670" y="180" width="180" height="24" rx="12"/>
+      <rect x="900" y="180" width="180" height="24" rx="12" opacity="0.65"/>
+      <rect x="1130" y="180" width="260" height="24" rx="12" opacity="0.45"/>
+    </g>
+    <g fill="#00d4ff" opacity="0.78">
+      <rect x="670" y="245" width="80" height="80" rx="14"/>
+      <rect x="780" y="245" width="80" height="80" rx="14" opacity="0.6"/>
+      <rect x="890" y="245" width="80" height="80" rx="14" opacity="0.45"/>
+    </g>
+    <g fill="#ff0040" opacity="0.8">
+      <rect x="1190" y="215" width="180" height="40" rx="20"/>
+      <rect x="1190" y="280" width="120" height="40" rx="20" opacity="0.6"/>
+    </g>
+    <g transform="translate(670 475)">
+      <rect width="80" height="220" rx="12" fill="url(#cyan)" opacity="0.7"/>
+      <rect x="100" width="80" height="160" rx="12" fill="#00d4ff" opacity="0.45"/>
+      <rect x="200" width="80" height="260" rx="12" fill="#ff0040" opacity="0.7"/>
+      <rect x="300" width="80" height="190" rx="12" fill="#00d4ff" opacity="0.35"/>
+      <rect x="400" width="80" height="230" rx="12" fill="#ff0040" opacity="0.45"/>
+    </g>
+    <path d="M670 755 H1410" stroke="url(#cyan)" stroke-width="8" stroke-linecap="round" opacity="0.7"/>
+  </g>
+</svg>
