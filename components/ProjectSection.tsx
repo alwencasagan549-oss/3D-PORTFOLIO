@@ -22,8 +22,8 @@ const projects = [
     description: 'An AI-powered voice assistant with natural language processing capabilities, designed for seamless voice interactions and intelligent task automation.',
     technologies: ['Python', 'TensorFlow', 'NLP', 'Node.js', 'Speech Recognition'],
     githubUrl: 'https://github.com/alwencasagan549-oss',
-    liveUrl: 'https://alvin-ai.example.com',
-    image: '/images/alvin-ai-voice-assistant.svg',
+    liveUrl: '/unavailable',
+    image: '/images/alvin-ai-voice-assistant.webp',
     year: '2025'
   },
   {
@@ -52,8 +52,8 @@ const projects = [
     description: 'A centralized system for managing inventory tracking and item borrowing operations, designed to streamline resource management and accountability.',
     technologies: ['JavaScript', 'Node.js', 'MongoDB', 'Express', 'EJS'],
     githubUrl: 'https://github.com/alwencasagan549-oss/IBS',
-    liveUrl: 'https://ibs.example.com',
-    image: '/images/inventory-borrowing-system.svg',
+    liveUrl: '/unavailable',
+    image: '/images/inventory-borrowing-system-v2.webp',
     year: '2025'
   },
   {
@@ -63,7 +63,7 @@ const projects = [
     technologies: ['Svelte', 'JavaScript', 'Real-time', 'Firebase', 'CSS'],
     githubUrl: 'https://github.com/alwencasagan549-oss/AllWhenQuiz',
     liveUrl: 'https://allwhenquiz.example.com',
-    image: '/images/allwhen-quiz.svg',
+    image: '/images/allwhen-quiz.webp',
     year: '2025'
   }
 ];
@@ -117,7 +117,9 @@ function ProjectSectionComponent() {
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            'radial-gradient(ellipse at 50% 0%, rgba(255,0,64,0.04) 0%, transparent 60%)'
+            'radial-gradient(ellipse at 50% 45%, rgba(255,106,0,0.07) 0%, transparent 60%), ' +
+            'radial-gradient(ellipse at 20% 20%, rgba(0,212,255,0.05) 0%, transparent 55%), ' +
+            'radial-gradient(ellipse at 80% 75%, rgba(255,0,64,0.05) 0%, transparent 55%)'
         }}
       />
 
@@ -170,7 +172,7 @@ function ProjectSectionComponent() {
                 <div aria-hidden="true" className="absolute -bottom-1 -left-1 w-5 h-5 border-b-2 border-l-2 border-cyan-400 rounded-bl-lg opacity-60 group-hover:opacity-100 transition-opacity duration-500" />
                 <div aria-hidden="true" className="absolute -bottom-1 -right-1 w-5 h-5 border-b-2 border-r-2 border-cyan-400 rounded-br-lg opacity-60 group-hover:opacity-100 transition-opacity duration-500" />
 
-                <div className="relative bg-[#0a0e1a]/80 backdrop-blur-xl border border-cyan-500/20 rounded-3xl p-6 md:p-8 hover:border-cyan-500/40 hover:shadow-[0_0_40px_rgba(0,212,255,0.15),0_0_80px_rgba(255,0,64,0.08)] transition-all duration-500 overflow-hidden">
+                <div className="relative bg-[#0a0e1a]/80 border border-cyan-500/20 rounded-3xl p-6 md:p-8 hover:border-cyan-500/40 hover:shadow-[0_0_40px_rgba(0,212,255,0.15),0_0_80px_rgba(255,0,64,0.08)] transition-all duration-500 overflow-hidden">
                   {/* Top gradient line */}
                   <div
                     aria-hidden="true"

@@ -9,7 +9,7 @@
   --gradient-neon-short: linear-gradient(90deg, #ff0040, #00d4ff);
 }
 
-/* Reusable gradient utilities (replaces inline bg-gradient-to-r from-[#ff0040]...) */
+/* Reusable gradient utilities */
 .bg-gradient-neon {
   background-image: var(--gradient-neon);
 }
@@ -36,17 +36,39 @@
   color: transparent;
 }
 
-/* RGB Cursor */
-  * {
-    cursor: url('https://cdn.cursors-4u.net/previews/rgb-cursor-dark-6e1535b0-preview-32.webp') 0 0, auto !important;
+/* Cursor — custom on desktop interactive elements only */
+@media (pointer: fine) {
+  a, button, [role="button"], .cursor-pointer {
+    cursor: url('https://cdn.cursors-4u.net/previews/rgb-cursor-dark-6e1535b0-preview-32.webp') 0 0, pointer !important;
+  }
+}
+
+/* Performance: reduce heavy effects on low-end / reduced-motion */
+@media (prefers-reduced-motion: reduce), (max-width: 768px) {
+  .backdrop-blur-xl,
+  .backdrop-blur-md,
+  .backdrop-blur-sm {
+    backdrop-filter: none !important;
   }
 
-  @media (pointer: coarse) {
-    * {
-      cursor: auto !important;
-    }
+  .animate-pulse,
+  .animate-spin,
+  .animate-ping,
+  .animate-bounce {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
   }
+}
 
+/* GPU compositing hints for animated elements */
+.robot-glow,
+.canvas-cursor-glow {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+
+/* Hero gradient */
 .hero-gradient {
   background: linear-gradient(-45deg, #0a0e1a, #000000, #1a0a2e, #0d1428);
   background-size: 400% 400%;
@@ -66,12 +88,8 @@
 }
 
 @keyframes scanline {
-  0% {
-    transform: translateY(-100%);
-  }
-  100% {
-    transform: translateY(100%);
-  }
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
 }
 
 .scanline {
@@ -87,14 +105,8 @@
 }
 
 @keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .fade-in-up {
@@ -102,25 +114,11 @@
   opacity: 0;
 }
 
-.fade-delay-1 {
-  animation-delay: 0.1s;
-}
-
-.fade-delay-2 {
-  animation-delay: 0.2s;
-}
-
-.fade-delay-3 {
-  animation-delay: 0.3s;
-}
-
-.fade-delay-4 {
-  animation-delay: 0.4s;
-}
-
-.fade-delay-5 {
-  animation-delay: 0.5s;
-}
+.fade-delay-1 { animation-delay: 0.1s; }
+.fade-delay-2 { animation-delay: 0.2s; }
+.fade-delay-3 { animation-delay: 0.3s; }
+.fade-delay-4 { animation-delay: 0.4s; }
+.fade-delay-5 { animation-delay: 0.5s; }
 
 .hover-lift {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -131,7 +129,7 @@
   box-shadow: 0 8px 20px rgba(0,212,255,0.3);
 }
 
-/* Smooth text gradient animation */
+/* Text gradient animation */
 @keyframes textShine {
   from { background-position: 200% center; }
   to { background-position: 0% center; }
@@ -148,32 +146,13 @@
 }
 
 .tech-text {
-  background-image: linear-gradient(
-    90deg,
-    #ff0040,
-    #ff0040,
-    #ff4400,
-    #ff6a00,
-    #ffaa00,
-    #00d4ff,
-    #00d4ff,
-    #0088ff,
-    #0044ff,
-    #8800ff,
-    #ff0088,
-    #ff0040,
-    #ff0040
-  );
+  background-image: linear-gradient(90deg, #ff0040, #ff0040, #ff4400, #ff6a00, #ffaa00, #00d4ff, #00d4ff, #0088ff, #0044ff, #8800ff, #ff0088, #ff0040, #ff0040);
   background-size: 300% auto;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
-  text-shadow:
-    0 0 10px rgba(255, 0, 64, 0.5),
-    0 0 20px rgba(255, 106, 0, 0.4),
-    0 0 40px rgba(0, 212, 255, 0.3),
-    0 0 80px rgba(0, 136, 255, 0.2);
+  text-shadow: 0 0 10px rgba(255, 0, 64, 0.5), 0 0 20px rgba(255, 106, 0, 0.4), 0 0 40px rgba(0, 212, 255, 0.3), 0 0 80px rgba(0, 136, 255, 0.2);
   animation: techShift 3s linear infinite;
   display: inline-block;
 }
@@ -185,6 +164,7 @@
 
 body {
   font-family: var(--font-orbitron), sans-serif;
+  background-color: #05080f;
 }
 
 .font-orbitron {
@@ -197,8 +177,7 @@ body {
   pointer-events: none;
   z-index: 2;
   background:
-    repeating-linear-gradient(0deg, transparent 0px, transparent 2px, rgba(0,212,255,0.03) 2px, rgba(0,212,255,0.03) 4px),
-    radial-gradient(circle at 50% 50%, transparent 0%, rgba(0,0,0,0.4) 100%);
+    repeating-linear-gradient(0deg, transparent 0px, transparent 2px, rgba(0,212,255,0.03) 2px, rgba(0,212,255,0.03) 4px);
 }
 
 .robot-glow {
@@ -206,7 +185,7 @@ body {
   inset: 0;
   pointer-events: none;
   z-index: 1;
-  background: radial-gradient(circle at 80% 50%, rgba(0, 212, 255, 0.1) 0%, transparent 60%);
+  background: radial-gradient(circle at 80% 50%, rgba(0, 212, 255, 0.06) 0%, transparent 60%);
 }
 
 .tech-role-text {
@@ -224,46 +203,28 @@ body {
 }
 
 @keyframes neonPulse {
-  0%,
-  100% {
-    text-shadow:
-      0 0 10px rgba(255, 0, 64, 0.6),
-      0 0 20px rgba(255, 0, 64, 0.4),
-      0 0 40px rgba(0, 212, 255, 0.4),
-      0 0 80px rgba(0, 136, 255, 0.2);
+  0%, 100% {
+    text-shadow: 0 0 10px rgba(255, 0, 64, 0.6), 0 0 20px rgba(255, 0, 64, 0.4), 0 0 40px rgba(0, 212, 255, 0.4), 0 0 80px rgba(0, 136, 255, 0.2);
   }
   50% {
-    text-shadow:
-      0 0 20px rgba(255, 0, 64, 0.9),
-      0 0 40px rgba(255, 0, 64, 0.6),
-      0 0 60px rgba(0, 212, 255, 0.6),
-      0 0 120px rgba(0, 136, 255, 0.4);
+    text-shadow: 0 0 20px rgba(255, 0, 64, 0.9), 0 0 40px rgba(255, 0, 64, 0.6), 0 0 60px rgba(0, 212, 255, 0.6), 0 0 120px rgba(0, 136, 255, 0.4);
   }
 }
 
 @keyframes neonFlicker {
-  0%,
-  19%,
-  21%,
-  23%,
-  25%,
-  54%,
-  56%,
-  100% {
-    opacity: 1;
-  }
-  20%,
-  24%,
-  55% {
-    opacity: 0.5;
-  }
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
+  20%, 24%, 55% { opacity: 0.5; }
 }
 
 .tech-text-neon {
-  animation:
-    techShift 6s linear infinite,
-    neonPulse 2s ease-in-out infinite,
-    neonFlicker 4s ease-in-out infinite;
+  animation: techShift 6s linear infinite, neonPulse 2s ease-in-out infinite, neonFlicker 4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce), (max-width: 768px) {
+  .tech-text-neon {
+    animation: techShift 6s linear infinite;
+    text-shadow: 0 0 10px rgba(255, 0, 64, 0.3), 0 0 20px rgba(0, 212, 255, 0.3);
+  }
 }
 
 .header-scanline {
@@ -276,7 +237,7 @@ body {
   opacity: 0.3;
 }
 
-/* Jump animation for buttons */
+/* Jump animation */
 @keyframes jumpOnce {
   0% { transform: translateY(0); }
   50% { transform: translateY(-12px); }
@@ -382,30 +343,16 @@ body {
     opacity: 1;
     transform: none;
   }
-  .marquee-track {
-    animation: none;
-  }
-  .tech-text, .tech-role-text {
-    animation: none;
-  }
-  .tech-text-neon {
-    animation: none;
-  }
-  .header-logo {
-    animation: none;
-  }
-  .header-scanline {
-    animation: none;
-  }
-  .node-pulse {
-    animation: none;
-  }
-  .marquee-text {
-    animation: none;
-  }
-  .orb-drift {
-    animation: none;
-  }
+  .marquee-track { animation: none; }
+  .tech-text, .tech-role-text { animation: none; }
+  .tech-text-neon { animation: none; }
+  .header-logo { animation: none; }
+  .header-scanline { animation: none; }
+  .node-pulse { animation: none; }
+  .marquee-text { animation: none; }
+  .orb-drift { animation: none; }
+  /* Disable Framer Motion animations via CSS */
+  * { transition-duration: 0.01ms !important; }
 }
 
 .font-oswald {
@@ -420,8 +367,29 @@ body {
     #05080f;
 }
 
-/* === Phase 1: Neon utility classes === */
+/* Cyber background scanline overlay */
+.cyber-scanlines {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.08;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 212, 255, 0.5) 2px,
+    rgba(0, 212, 255, 0.5) 4px
+  );
+}
 
+@media (max-width: 768px) {
+  .cyber-scanlines {
+    opacity: 0.04;
+  }
+}
+
+/* === Neon utility classes === */
 .neon-text-glow {
   text-shadow: 0 0 8px rgba(0, 212, 255, 0.4);
 }
@@ -458,8 +426,12 @@ body {
   filter: drop-shadow(0 0 10px rgba(255, 106, 0, 0.3));
 }
 
-/* Accessible focus ring (keyboard-only) */
-*:focus-visible {
+/* Accessible focus ring */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+[tabindex]:not([tabindex='-1']):focus-visible {
   outline: 2px solid #00d4ff;
   outline-offset: 2px;
   border-radius: 4px;

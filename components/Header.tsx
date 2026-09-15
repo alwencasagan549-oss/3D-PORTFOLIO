@@ -13,13 +13,14 @@ const sectionIds: Record<string, string> = {
   'Contact': 'contact',
 };
 
-function NavLink({ item, activeSection }: { item: string; activeSection: string }) {
+const NavLink = memo(function NavLink({ item, activeSection, onNavigate }: { item: string; activeSection: string; onNavigate: () => void }) {
   const sectionId = sectionIds[item] ?? item.toLowerCase();
   const isActive = activeSection === sectionId;
 
   return (
-    <motion.a
-      href={`#${sectionId}`}
+    <motion.button
+      type="button"
+      onClick={onNavigate}
       className={`relative text-sm font-mono uppercase tracking-wider transition-colors duration-300 hover:text-cyan-400 cursor-pointer focus-visible:text-cyan-400 ${isActive ? 'text-cyan-400' : 'text-gray-400'} `}
       whileHover={{ y: -2 }}
       transition={{ duration: 0.2 }}
@@ -32,9 +33,9 @@ function NavLink({ item, activeSection }: { item: string; activeSection: string 
           transition={{ type: "spring", stiffness: 380, damping: 30 }}
         />
       )}
-    </motion.a>
+    </motion.button>
   );
-}
+});
 
 const Header = memo(function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -63,8 +64,7 @@ const Header = memo(function Header() {
     const offsets = sectionOffsetsRef.current;
     let active = 'home';
     for (const [section, offsetTop] of offsets) {
-      const el = document.getElementById(section);
-      if (el && offsetTop <= scrollY) {
+      if (offsetTop <= scrollY) {
         active = section;
       }
     }
@@ -86,6 +86,13 @@ const Header = memo(function Header() {
     return () => window.removeEventListener('scroll', onScroll);
   }, [scrollHandler]);
 
+  const scrollToSection = useCallback((sectionId: string) => {
+    const target = document.getElementById(sectionId);
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, []);
+
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-gray-800/50 transition-all duration-300 ${scrolled ? 'h-16' : 'h-20'}`}>
 
@@ -103,20 +110,29 @@ const Header = memo(function Header() {
       <div className={`max-w-[1440px] mx-auto px-6 md:px-8 flex items-center justify-between transition-all duration-300 ${scrolled ? 'h-16' : 'h-20'}`}>
 
         {/* Left: Logo with Gradient & Glow */}
-        <motion.a
-          href="#home"
+        <motion.button
+          type="button"
+          onClick={() => scrollToSection('home')}
           className={`font-bold font-orbitron tracking-tighter text-gradient-neon header-logo transition-all duration-300 cursor-pointer ${scrolled ? 'text-2xl' : 'text-3xl'}`}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
           AC
-        </motion.a>
+        </motion.button>
 
         {/* Navigation Links (Desktop) */}
         <nav className="hidden md:flex gap-6">
-          {navItems.map((item) => (
-            <NavLink key={item} item={item} activeSection={activeSection} />
-          ))}
+          {navItems.map((item) => {
+            const sectionId = sectionIds[item] ?? item.toLowerCase();
+            return (
+              <NavLink
+                key={item}
+                item={item}
+                activeSection={activeSection}
+                onNavigate={() => scrollToSection(sectionId)}
+              />
+            );
+          })}
         </nav>
 
         {/* Mobile Menu Toggle */}
@@ -124,7 +140,11 @@ const Header = memo(function Header() {
           aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={isMobileMenuOpen}
           className="md:hidden text-gray-400 hover:text-cyan-400 transition-colors duration-300 cursor-pointer"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          onClick={() => {
+            const next = !isMobileMenuOpen;
+            setIsMobileMenuOpen(next);
+            document.body.style.overflow = next ? 'hidden' : '';
+          }}
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={isMobileMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
@@ -142,15 +162,19 @@ const Header = memo(function Header() {
         {navItems.map((item) => {
           const sectionId = sectionIds[item] ?? item.toLowerCase();
           return (
-          <a
-            key={item}
-            href={`#${sectionId}`}
-            className={`text-sm font-mono uppercase tracking-wider transition-colors duration-300 cursor-pointer ${activeSection === sectionId ? 'text-cyan-400' : 'text-gray-400 hover:text-cyan-400'}`}
-            onClick={() => setIsMobileMenuOpen(false)}
-          >
-            {item}
-          </a>
-        );})}
+            <button
+              key={item}
+              type="button"
+              onClick={() => {
+                scrollToSection(sectionId);
+                setIsMobileMenuOpen(false);
+              }}
+              className={`text-sm font-mono uppercase tracking-wider transition-colors duration-300 cursor-pointer text-left ${activeSection === sectionId ? 'text-cyan-400' : 'text-gray-400 hover:text-cyan-400'}`}
+            >
+              {item}
+            </button>
+          );
+        })}
       </motion.div>
 
       {/* Scanline Effect */}

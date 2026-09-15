@@ -83,7 +83,9 @@ export default memo(function ContactSection() {
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            'radial-gradient(ellipse at 50% 0%, rgba(255,0,64,0.05) 0%, transparent 60%)',
+            'radial-gradient(ellipse at 50% 45%, rgba(255,106,0,0.07) 0%, transparent 60%), ' +
+            'radial-gradient(ellipse at 20% 20%, rgba(0,212,255,0.05) 0%, transparent 55%), ' +
+            'radial-gradient(ellipse at 80% 75%, rgba(255,0,64,0.05) 0%, transparent 55%)'
         }}
       />
 
@@ -186,7 +188,7 @@ export default memo(function ContactSection() {
             whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.8, ease: 'easeOut', delay: 0.1 }}
-            className="bg-[#0a0e1a]/80 backdrop-blur-xl border border-cyan-500/20 rounded-2xl p-6 md:p-8 hover:border-cyan-500/40 hover:shadow-[0_0_50px_rgba(0,212,255,0.2)] transition-all duration-500"
+            className="bg-[#0a0e1a]/80 backdrop-blur-md border border-cyan-500/20 rounded-2xl p-6 md:p-8 hover:border-cyan-500/40 hover:shadow-[0_0_40px_rgba(0,212,255,0.15),0_0_80px_rgba(255,0,64,0.08)] transition-all duration-500"
           >
             {/* Gradient top border */}
             <div

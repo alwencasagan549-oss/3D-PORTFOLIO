@@ -10,16 +10,18 @@ import {
   fadeInLeftVariants,
   staggerContainerVariants,
 } from '@/components/ui/motion-variants';
+import { useDeviceCapabilities, useShouldReduceMotion } from '@/hooks/useDeviceCapabilities';
 
 export default function AboutSection() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const capabilities = useDeviceCapabilities();
+  const shouldReduceMotion = useShouldReduceMotion(capabilities);
 
   return (
     <section
       id="about"
       ref={containerRef}
       className="w-full relative overflow-hidden pt-16 md:pt-24 pb-2"
-      style={{ contain: 'layout style paint' }}
     >
       <div className="relative z-10 max-w-[980px] mx-auto px-6 md:px-8 w-full">
 
@@ -60,7 +62,7 @@ export default function AboutSection() {
               src="/images/profile.webp"
               alt="Portrait of Alwen Casagan, a full-stack developer and system architect"
               className="w-full h-full"
-              perspectiveStyle={{ perspective: '800px' }}
+              perspectiveStyle={{ perspective: shouldReduceMotion ? 'none' : '800px' }}
               imageSizes="(max-width: 640px) 288px, (max-width: 768px) 320px, (max-width: 1024px) 384px, 512px"
             />
           </motion.div>
@@ -84,7 +86,7 @@ export default function AboutSection() {
               <div aria-hidden="true" className="absolute -bottom-1 -left-1 w-5 h-5 border-b-2 border-l-2 border-cyan-400 rounded-bl-lg opacity-60 group-hover:opacity-100 transition-opacity duration-500" />
               <div aria-hidden="true" className="absolute -bottom-1 -right-1 w-5 h-5 border-b-2 border-r-2 border-cyan-400 rounded-br-lg opacity-60 group-hover:opacity-100 transition-opacity duration-500" />
 
-              <div className="relative bg-[#0a0e1a]/80 backdrop-blur-xl border border-cyan-500/20 rounded-3xl p-8 md:p-10 hover:border-cyan-500/40 hover:shadow-[0_0_40px_rgba(0,212,255,0.15),0_0_80px_rgba(255,0,64,0.08)] transition-all duration-500 overflow-hidden">
+              <div className="relative bg-[#0a0e1a]/80 border border-cyan-500/20 rounded-3xl p-8 md:p-10 hover:border-cyan-500/40 hover:shadow-[0_0_40px_rgba(0,212,255,0.15),0_0_80px_rgba(255,0,64,0.08)] transition-all duration-500 overflow-hidden">
 
                 {/* Animated top gradient line */}
                 <div
@@ -138,7 +140,7 @@ export default function AboutSection() {
                   {/* Stat 1 */}
                   <div className="relative group/stat">
                     <div className="absolute inset-0 rounded-xl bg-gradient-neon opacity-0 group-hover/stat:opacity-10 transition-opacity duration-500" />
-                    <div className="relative bg-white/[0.03] border border-cyan-500/10 rounded-xl p-4 md:p-5 text-center hover:border-cyan-500/30 hover:bg-white/[0.05] transition-all duration-300">
+                    <div className="relative bg-white/[0.03] border border-cyan-500/10 rounded-xl p-4 md:p-5 text-center hover:border-cyan-500/30 hover:bg-white/[0.05] transition-[border-color_0.3s,background-color_0.3s] duration-300">
                       <div className="text-3xl md:text-4xl font-bold font-orbitron text-gradient-neon-short neon-stat-glow-cyan mb-1">3+</div>
                       <div className="text-[11px] font-mono uppercase tracking-[0.2em] text-gray-400 leading-tight">Years Experience</div>
                     </div>
@@ -147,7 +149,7 @@ export default function AboutSection() {
                   {/* Stat 2 */}
                   <div className="relative group/stat">
                     <div className="absolute inset-0 rounded-xl bg-gradient-neon opacity-0 group-hover/stat:opacity-10 transition-opacity duration-500" />
-                    <div className="relative bg-white/[0.03] border border-cyan-500/10 rounded-xl p-4 md:p-5 text-center hover:border-cyan-500/30 hover:bg-white/[0.05] transition-all duration-300">
+                    <div className="relative bg-white/[0.03] border border-cyan-500/10 rounded-xl p-4 md:p-5 text-center hover:border-cyan-500/30 hover:bg-white/[0.05] transition-[border-color_0.3s,background-color_0.3s] duration-300">
                       <div className="text-3xl md:text-4xl font-bold font-orbitron text-gradient-neon-short neon-stat-glow-orange mb-1">20+</div>
                       <div className="text-[11px] font-mono uppercase tracking-[0.2em] text-gray-400 leading-tight">Projects Completed</div>
                     </div>
@@ -156,7 +158,7 @@ export default function AboutSection() {
                   {/* Stat 3 - new */}
                   <div className="relative group/stat hidden sm:block">
                     <div className="absolute inset-0 rounded-xl bg-gradient-neon opacity-0 group-hover/stat:opacity-10 transition-opacity duration-500" />
-                    <div className="relative bg-white/[0.03] border border-cyan-500/10 rounded-xl p-4 md:p-5 text-center hover:border-cyan-500/30 hover:bg-white/[0.05] transition-all duration-300">
+                    <div className="relative bg-white/[0.03] border border-cyan-500/10 rounded-xl p-4 md:p-5 text-center hover:border-cyan-500/30 hover:bg-white/[0.05] transition-[border-color_0.3s,background-color_0.3s] duration-300">
                       <div className="text-3xl md:text-4xl font-bold font-orbitron text-gradient-neon-short neon-stat-glow-cyan mb-1">10+</div>
                       <div className="text-[11px] font-mono uppercase tracking-[0.2em] text-gray-400 leading-tight">Technologies</div>
                     </div>
@@ -176,10 +178,10 @@ export default function AboutSection() {
       <div aria-hidden="true" className="relative z-10 w-full mt-1">
         <CurvedLoop
           marqueeText="Think # Code # Build # "
-          speed={2.5}
+          speed={shouldReduceMotion ? 0 : 2.5}
           curveAmount={0}
           direction="left"
-          interactive={true}
+          interactive={!shouldReduceMotion}
           className="tech-text"
         />
       </div>

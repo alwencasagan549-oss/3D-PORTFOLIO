@@ -7,7 +7,8 @@ import ExperienceSection from '@/components/ExperienceSection';
 import ProjectSection from '@/components/ProjectSection';
 import { TechStackSection } from '@/components/TechStackSection';
 import ContactSection from '@/components/ContactSection';
-import SplineBackground from '@/components/SplineBackground';
+import CanvasCursor from '@/components/CanvasCursor';
+import LazySection from '@/components/LazySection';
 
 export default function Home() {
   useEffect(() => {
@@ -32,14 +33,24 @@ export default function Home() {
 
   return (
     <>
-      <SplineBackground className="fixed inset-0" />
+      <CanvasCursor />
       <main className="relative z-10">
         <HomeSection />
-        <AboutSection />
-        <ExperienceSection />
-        <TechStackSection />
-        <ProjectSection />
-        <ContactSection />
+        <LazySection minHeight="60vh">
+          <AboutSection />
+        </LazySection>
+        <LazySection minHeight="60vh">
+          <ExperienceSection />
+        </LazySection>
+        <LazySection minHeight="60vh">
+          <TechStackSection />
+        </LazySection>
+        <LazySection minHeight="60vh">
+          <ProjectSection />
+        </LazySection>
+        <LazySection minHeight="60vh">
+          <ContactSection />
+        </LazySection>
       </main>
     </>
   );

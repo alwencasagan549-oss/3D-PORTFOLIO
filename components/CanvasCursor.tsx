@@ -1,10 +1,12 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { useDeviceCapabilities } from '@/hooks/useDeviceCapabilities';
 
-const MAX_PARTICLES = 400;
-const SPAWN_RATE = 20;
+const MAX_PARTICLES = 300;
+const SPAWN_RATE = 12;
 const GLOW_SIZE = 5;
+const IDLE_TIMEOUT = 2000;
 
 function createGlowSprite(size: number): HTMLCanvasElement {
   const offscreen = document.createElement('canvas');
@@ -23,8 +25,14 @@ function createGlowSprite(size: number): HTMLCanvasElement {
 
 export default function CanvasCursor() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const capabilities = useDeviceCapabilities();
 
   useEffect(() => {
+    // Skip entirely on low-end devices or touch-primary devices
+    if (capabilities.isLowEnd) return;
+    const isTouchPrimary = typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches;
+    if (isTouchPrimary) return;
+
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d', { alpha: true })!;
@@ -45,19 +53,38 @@ export default function CanvasCursor() {
     const particles: { x: number; y: number; r: number; vx: number; vy: number; life: number; hue: number }[] = [];
     let raf = 0;
     let globalHue = 0;
+    let lastMoveTime = Date.now();
+    let isRunning = false;
 
-    const clearParticles = () => {
-      particles.length = 0;
-      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+    const stopLoop = () => {
       if (raf !== 0) {
         cancelAnimationFrame(raf);
         raf = 0;
       }
+      isRunning = false;
+    };
+
+    const startLoop = () => {
+      if (!isRunning) {
+        isRunning = true;
+        raf = requestAnimationFrame(render);
+      }
+    };
+
+    const clearParticles = () => {
+      particles.length = 0;
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      stopLoop();
     };
 
     const onMove = (e: MouseEvent) => {
-      for (let i = 0; i < SPAWN_RATE; i++) {
-        if (particles.length >= MAX_PARTICLES) {
+      lastMoveTime = Date.now();
+      // Reduce particles on mid-tier devices
+      const rate = capabilities.tier === 'mid' ? SPAWN_RATE / 2 : SPAWN_RATE;
+      const maxP = capabilities.tier === 'mid' ? MAX_PARTICLES / 2 : MAX_PARTICLES;
+
+      for (let i = 0; i < rate; i++) {
+        if (particles.length >= maxP) {
           particles.shift();
         }
         particles.push({
@@ -70,9 +97,7 @@ export default function CanvasCursor() {
           hue: globalHue + Math.random() * 40 - 20,
         });
       }
-      if (raf === 0) {
-        raf = requestAnimationFrame(render);
-      }
+      startLoop();
     };
 
     const render = () => {
@@ -105,30 +130,42 @@ export default function CanvasCursor() {
       }
       ctx.globalAlpha = 1;
 
+      // Stop loop when all particles dead and mouse idle
+      if (particles.length === 0) {
+        stopLoop();
+        return;
+      }
+
+      // Idle check — stop loop if mouse hasn't moved in IDLE_TIMEOUT
+      if (Date.now() - lastMoveTime > IDLE_TIMEOUT && particles.length < 5) {
+        clearParticles();
+        return;
+      }
+
       raf = requestAnimationFrame(render);
     };
 
     window.addEventListener('mousemove', onMove);
-    const onVisibilityChange = () => {
-      if (document.hidden) clearParticles();
-    };
-
     window.addEventListener('blur', clearParticles);
     document.addEventListener('mouseleave', clearParticles);
-    document.addEventListener('visibilitychange', onVisibilityChange);
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        stopLoop();
+        clearParticles();
+      }
+    });
     window.addEventListener('pagehide', clearParticles);
-    raf = requestAnimationFrame(render);
 
     return () => {
       clearParticles();
       window.removeEventListener('mousemove', onMove);
       window.removeEventListener('blur', clearParticles);
       document.removeEventListener('mouseleave', clearParticles);
-      document.removeEventListener('visibilitychange', onVisibilityChange);
+      document.removeEventListener('visibilitychange', () => {});
       window.removeEventListener('pagehide', clearParticles);
       window.removeEventListener('resize', resize);
     };
-  }, []);
+  }, [capabilities.tier, capabilities.isLowEnd]);
 
   return (
     <canvas

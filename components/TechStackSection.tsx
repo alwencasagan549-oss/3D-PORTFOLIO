@@ -315,7 +315,10 @@ function TechStackSectionComponent() {
         aria-hidden="true"
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: 'radial-gradient(ellipse at 50% 0%, rgba(0,212,255,0.06) 0%, transparent 60%)',
+          background:
+            'radial-gradient(ellipse at 50% 45%, rgba(255,106,0,0.07) 0%, transparent 60%), ' +
+            'radial-gradient(ellipse at 20% 20%, rgba(0,212,255,0.05) 0%, transparent 55%), ' +
+            'radial-gradient(ellipse at 80% 75%, rgba(255,0,64,0.05) 0%, transparent 55%)'
         }}
       />
 
@@ -362,7 +365,7 @@ function TechStackSectionComponent() {
               <div aria-hidden="true" className="absolute -bottom-1 -left-1 w-4 h-4 border-b-2 border-l-2 border-cyan-400 rounded-bl-lg opacity-40 group-hover:opacity-100 transition-opacity duration-500" />
               <div aria-hidden="true" className="absolute -bottom-1 -right-1 w-4 h-4 border-b-2 border-r-2 border-cyan-400 rounded-br-lg opacity-40 group-hover:opacity-100 transition-opacity duration-500" />
 
-              <div className="relative bg-[#0a0e1a]/70 backdrop-blur-xl border border-cyan-500/15 rounded-2xl p-6 md:p-7 hover:border-cyan-400/40 hover:shadow-[0_0_40px_rgba(0,212,255,0.12),0_0_80px_rgba(255,0,64,0.05)] transition-all duration-500 overflow-hidden">
+              <div className="relative bg-[#0a0e1a]/80 backdrop-blur-xl border border-cyan-500/20 rounded-2xl p-6 md:p-7 hover:border-cyan-500/40 hover:shadow-[0_0_40px_rgba(0,212,255,0.15),0_0_80px_rgba(255,0,64,0.08)] transition-all duration-500 overflow-hidden">
                 {/* Top gradient line */}
                 <div aria-hidden="true" className="absolute -top-px left-6 right-6 h-px bg-gradient-neon opacity-60 group-hover:opacity-100 group-hover:shadow-[0_0_10px_rgba(0,212,255,0.8)] transition-all duration-500" />
 

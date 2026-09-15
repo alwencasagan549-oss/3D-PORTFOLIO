@@ -26,8 +26,10 @@ const CurvedLoop: FC<CurvedLoopProps> = ({
   const measureRef = useRef<SVGTextElement | null>(null);
   const textPathRef = useRef<SVGTextPathElement | null>(null);
   const pathRef = useRef<SVGPathElement | null>(null);
+  const jacketRef = useRef<HTMLDivElement>(null);
   const [spacing, setSpacing] = useState(0);
-  const [offset, setOffset] = useState(0);
+  const offsetRef = useRef(0);
+  const [visible, setVisible] = useState(true);
   const uid = useId();
   const pathId = `curve-${uid}`;
   const pathD = `M-100,40 Q500,${40 + curveAmount} 1540,40`;
@@ -38,6 +40,15 @@ const CurvedLoop: FC<CurvedLoopProps> = ({
   const velRef = useRef(0);
 
   const textLength = spacing;
+
+  useEffect(() => {
+    const el = jacketRef.current;
+    if (!el) return;
+    if (typeof window === 'undefined' || !('IntersectionObserver' in window)) return;
+    const observer = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting), { threshold: 0 });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
   const totalText = textLength
     ? Array(Math.ceil(1800 / textLength) + 2)
         .fill(text)
@@ -53,8 +64,8 @@ const CurvedLoop: FC<CurvedLoopProps> = ({
     if (!spacing) return;
     if (textPathRef.current) {
       const initial = -spacing;
+      offsetRef.current = initial;
       textPathRef.current.setAttribute('startOffset', initial + 'px');
-      setOffset(initial);
     }
   }, [spacing]);
 
@@ -62,21 +73,20 @@ const CurvedLoop: FC<CurvedLoopProps> = ({
     if (!spacing || !ready) return;
     let frame = 0;
     const step = () => {
-      if (!dragRef.current && textPathRef.current) {
+      if (visible && !dragRef.current && textPathRef.current) {
         const delta = dirRef.current === 'right' ? speed : -speed;
-        const currentOffset = parseFloat(textPathRef.current.getAttribute('startOffset') || '0');
-        let newOffset = currentOffset + delta;
+        let newOffset = offsetRef.current + delta;
         const wrapPoint = spacing;
         if (newOffset <= -wrapPoint) newOffset += wrapPoint;
         if (newOffset > 0) newOffset -= wrapPoint;
+        offsetRef.current = newOffset;
         textPathRef.current.setAttribute('startOffset', newOffset + 'px');
-        setOffset(newOffset);
       }
       frame = requestAnimationFrame(step);
     };
     frame = requestAnimationFrame(step);
     return () => cancelAnimationFrame(frame);
-  }, [spacing, speed, ready]);
+  }, [spacing, speed, ready, visible]);
 
   const onPointerDown = (e: PointerEvent) => {
     if (!interactive) return;
@@ -91,13 +101,12 @@ const CurvedLoop: FC<CurvedLoopProps> = ({
     const dx = e.clientX - lastXRef.current;
     lastXRef.current = e.clientX;
     velRef.current = dx;
-    const currentOffset = parseFloat(textPathRef.current.getAttribute('startOffset') || '0');
-    let newOffset = currentOffset + dx;
+    let newOffset = offsetRef.current + dx;
     const wrapPoint = spacing;
     if (newOffset <= -wrapPoint) newOffset += wrapPoint;
     if (newOffset > 0) newOffset -= wrapPoint;
+    offsetRef.current = newOffset;
     textPathRef.current.setAttribute('startOffset', newOffset + 'px');
-    setOffset(newOffset);
   };
 
   const endDrag = () => {
@@ -110,6 +119,7 @@ const CurvedLoop: FC<CurvedLoopProps> = ({
 
   return (
     <div
+      ref={jacketRef}
       className="curved-loop-jacket"
       style={{ visibility: ready ? 'visible' : 'hidden', cursor: cursorStyle }}
       onPointerDown={onPointerDown}
@@ -136,7 +146,7 @@ const CurvedLoop: FC<CurvedLoopProps> = ({
             xmlSpace="preserve"
             className={className}
           >
-            <textPath ref={textPathRef} href={`#${pathId}`} startOffset={offset + 'px'} xmlSpace="preserve">
+            <textPath ref={textPathRef} href={`#${pathId}`} startOffset={offsetRef.current + 'px'} xmlSpace="preserve">
               {totalText}
             </textPath>
           </text>
