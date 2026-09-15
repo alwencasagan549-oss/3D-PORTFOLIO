@@ -289,7 +289,7 @@ function HomeSectionComponent() {
                     <div className="relative z-10 group-hover:text-white transition-colors duration-300">
                       View Projects
                     </div>
-                  </a>
+                  </button>
                 </div>
               </motion.div>
 
