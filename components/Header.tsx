@@ -18,12 +18,10 @@ const NavLink = memo(function NavLink({ item, activeSection, onNavigate }: { ite
   const isActive = activeSection === sectionId;
 
   return (
-    <motion.button
+    <button
       type="button"
       onClick={onNavigate}
       className={`relative text-sm font-mono uppercase tracking-wider transition-colors duration-300 hover:text-cyan-400 cursor-pointer focus-visible:text-cyan-400 ${isActive ? 'text-cyan-400' : 'text-gray-400'} `}
-      whileHover={{ y: -2 }}
-      transition={{ duration: 0.2 }}
     >
       {item}
       {isActive && (
@@ -33,7 +31,7 @@ const NavLink = memo(function NavLink({ item, activeSection, onNavigate }: { ite
           transition={{ type: "spring", stiffness: 380, damping: 30 }}
         />
       )}
-    </motion.button>
+    </button>
   );
 });
 
@@ -110,15 +108,13 @@ const Header = memo(function Header() {
       <div className={`max-w-[1440px] mx-auto px-6 md:px-8 flex items-center justify-between transition-all duration-300 ${scrolled ? 'h-16' : 'h-20'}`}>
 
         {/* Left: Logo with Gradient & Glow */}
-        <motion.button
+        <button
           type="button"
           onClick={() => scrollToSection('home')}
           className={`font-bold font-orbitron tracking-tighter text-gradient-neon header-logo transition-all duration-300 cursor-pointer ${scrolled ? 'text-2xl' : 'text-3xl'}`}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
         >
           AC
-        </motion.button>
+        </button>
 
         {/* Navigation Links (Desktop) */}
         <nav className="hidden md:flex gap-6">

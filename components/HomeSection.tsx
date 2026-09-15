@@ -281,15 +281,12 @@ function HomeSectionComponent() {
                   <a href="/api/download" aria-label="Download my resume as PDF" className={btn1Class}>
                     Download CV
                   </a>
-                  <button type="button" aria-label="View my project portfolio" onClick={() => {
-                    const target = document.getElementById('projects');
-                    if (target) target.scrollIntoView({ behavior: 'smooth' });
-                  }} className={btn2Class}>
+                  <a href="#projects" className={btn2Class}>
                     <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-neon-short"></div>
                     <div className="relative z-10 group-hover:text-white transition-colors duration-300">
                       View Projects
                     </div>
-                  </button>
+                  </a>
                 </div>
               </motion.div>
 
