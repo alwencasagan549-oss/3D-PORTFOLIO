@@ -19,13 +19,12 @@ export default function NotFound() {
             Sorry, the page you are looking for does not exist or has been moved.
           </p>
 
-          <a href="#home" onClick={(e) => {
-            e.preventDefault();
+          <button type="button" onClick={() => {
             const target = document.getElementById('home');
             if (target) target.scrollIntoView({ behavior: 'smooth' });
           }} className="inline-flex items-center justify-center px-8 py-3 rounded-xl font-bold text-base transition-all duration-300 bg-white text-black hover:text-white hover:bg-gradient-to-r hover:from-[#ff0040] hover:via-[#ff6a00] hover:to-[#00d4ff] shadow-xl hover:shadow-[0_0_40px_rgba(255,0,64,0.35)] active:scale-95 cursor-pointer">
             Back to Home
-          </a>
+          </button>
         </div>
       </div>
     </div>
