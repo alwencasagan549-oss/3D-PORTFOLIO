@@ -20,8 +20,30 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Alwin Casagan — Full-Stack Developer & System Architect",
+  metadataBase: new URL("https://alwen.vercel.app"),
+  title: {
+    default: "Alwin T. Casagan — Full-Stack Developer & System Architect",
+    template: "%s | Alwin T. Casagan",
+  },
   description: "Portfolio of Alwin T. Casagan — Full-stack developer and system architect specializing in React, Next.js, TypeScript, and scalable web applications.",
+  keywords: ["Alwin Casagan", "Alwin T. Casagan", "full-stack developer", "system architect", "React", "Next.js", "TypeScript", "portfolio"],
+  authors: [{ name: "Alwin T. Casagan" }],
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://alwen.vercel.app",
+    title: "Alwin T. Casagan — Full-Stack Developer & System Architect",
+    description: "Portfolio of Alwin T. Casagan — Full-stack developer and system architect specializing in React, Next.js, TypeScript, and scalable web applications.",
+    siteName: "Alwin T. Casagan Portfolio",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Alwin T. Casagan — Full-Stack Developer & System Architect",
+    description: "Portfolio of Alwin T. Casagan — Full-stack developer and system architect specializing in React, Next.js, TypeScript, and scalable web applications.",
+  },
+  alternates: {
+    canonical: "/",
+  },
 };
 
 export default function RootLayout({
@@ -62,19 +84,15 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Person",
-              // TODO: Replace with actual full name
               "name": "Alwin T. Casagan",
-              // TODO: Replace with actual portfolio URL
-              "url": "https://your-portfolio-domain.com",
+              "url": "https://alwen.vercel.app",
               "jobTitle": "Full-Stack Developer & System Architect",
               "sameAs": [
-                // TODO: Replace with actual LinkedIn handle
                 "https://github.com/alwencasagan549-oss",
-                "https://linkedin.com/in/your-linkedin-handle",
+                "https://www.linkedin.com/in/alwen-casagan-810b253ba",
               ],
               "worksFor": {
                 "@type": "Organization",
-                // TODO: Replace with actual company or "Freelance"
                 "name": "Self-Employed / Freelance",
               },
               "description": "Full-stack developer and system architect specializing in React, Next.js, TypeScript, and scalable web applications.",
