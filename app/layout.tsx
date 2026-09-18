@@ -44,9 +44,6 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/",
   },
-  verification: {
-    google: "TmrSSRYE5BS4I2JUQRs1_BJO1kdknmLl7XLXrRWxkt8",
-  },
 };
 
 export default function RootLayout({
@@ -61,7 +58,6 @@ export default function RootLayout({
     >
       <head>
         <link rel="preconnect" href="https://prod.spline.design" />
-        <meta name="google-site-verification" content="TmrSSRYE5BS4I2JUQRs1_BJO1kdknmLl7XLXrRWxkt8" />
       </head>
       <body className="min-h-full flex flex-col bg-black">
         <Analytics />
