@@ -19,8 +19,10 @@ const inter = Inter({
   display: "swap",
 });
 
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://alwincasagan.vercel.app";
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://alwincasagan.vercel.app"),
+  metadataBase: new URL(baseUrl),
   title: {
     default: "Alwin T. Casagan — Full-Stack Developer & System Architect",
     template: "%s | Alwin T. Casagan",
@@ -57,7 +59,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://alwincasagan.vercel.app",
+    url: baseUrl,
     title: "Alwin T. Casagan — Full-Stack Developer & System Architect",
     description: "Portfolio of Alwin T. Casagan — Full-stack developer and system architect specializing in React, Next.js, TypeScript, Node.js, and scalable web applications.",
     siteName: "Alwin T. Casagan Portfolio",
@@ -111,8 +113,8 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "Person",
               "name": "Alwin T. Casagan",
-              "url": "https://alwincasagan.vercel.app",
-              "image": "https://alwincasagan.vercel.app/images/profile.webp",
+              "url": baseUrl,
+              "image": baseUrl + "/images/profile.webp",
               "jobTitle": "Full-Stack Developer & System Architect",
               "description": "Full-stack developer and system architect specializing in React, Next.js, TypeScript, Node.js, and scalable web applications.",
               "sameAs": [
@@ -157,7 +159,7 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "WebSite",
               "name": "Alwin T. Casagan Portfolio",
-              "url": "https://alwincasagan.vercel.app",
+              "url": baseUrl,
               "description": "Portfolio of Alwin T. Casagan — Full-stack developer and system architect specializing in React, Next.js, TypeScript, and scalable web applications.",
               "author": {
                 "@type": "Person",
@@ -166,7 +168,7 @@ export default function RootLayout({
               "inLanguage": "en",
               "potentialAction": {
                 "@type": "SearchAction",
-                "target": "https://alwincasagan.vercel.app/?s={search_term_string}",
+                "target": baseUrl + "/?s={search_term_string}",
                 "query-input": "required name=search_term_string",
               },
             }),
