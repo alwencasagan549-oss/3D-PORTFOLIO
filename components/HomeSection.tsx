@@ -256,7 +256,7 @@ function HomeSectionComponent() {
               <motion.div variants={itemVariants}>
                 <div className={`mb-14 fade-in-up pr-4 md:pr-0 ${contentReady ? 'fade-delay-2' : ''}`}>
                   <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-[5rem] xl:text-[6rem] font-bold leading-[0.85] tracking-tight uppercase font-orbitron overflow-visible max-w-full">
-                    <span className="text-gradient-neon animate-gradient-shift block mb-4">Alwen</span>
+                    <span className="text-gradient-neon animate-gradient-shift block mb-4">Alwin</span>
                     <span className="text-gradient-neon animate-gradient-shift block">Casagan</span>
                   </h1>
                 </div>
@@ -295,7 +295,7 @@ function HomeSectionComponent() {
                 <div className={`flex flex-col sm:flex-row items-center gap-8 pointer-events-auto fade-in-up ${contentReady ? 'fade-delay-5' : ''}`}>
                   <div className="flex gap-4">
                     {[
-                      { href: "https://github.com/alwencasagan549-oss", icon: "github", label: "Visit my GitHub profile" },
+                      { href: "https://github.com/alwincasagan549-oss", icon: "github", label: "Visit my GitHub profile" },
                       { href: "https://linkedin.com", icon: "linkedin", label: "Visit my LinkedIn profile" },
                       { href: "https://facebook.com", icon: "facebook", label: "Visit my Facebook profile" }
                     ].map((social) => (

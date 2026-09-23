@@ -60,7 +60,7 @@ export default function AboutSection() {
           >
             <TiltImage
               src="/images/profile.webp"
-              alt="Portrait of Alwen Casagan, a full-stack developer and system architect"
+              alt="Portrait of Alwin Casagan, a full-stack developer and system architect"
               className="w-full h-full"
               perspectiveStyle={{ perspective: shouldReduceMotion ? 'none' : '800px' }}
               imageSizes="(max-width: 640px) 288px, (max-width: 768px) 320px, (max-width: 1024px) 384px, 512px"

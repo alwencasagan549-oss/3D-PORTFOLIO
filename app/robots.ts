@@ -8,6 +8,6 @@ export default function robots(): MetadataRoute.Robots {
         allow: "/",
       },
     ],
-    sitemap: "https://alwen.vercel.app/sitemap.xml",
+    sitemap: "https://alwincasagan.vercel.app/sitemap.xml",
   };
 }

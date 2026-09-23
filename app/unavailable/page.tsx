@@ -38,7 +38,7 @@ export default function UnavailablePage() {
             Live Demo <span className="text-gradient-neon">Unavailable</span>
           </h1>
           <p className="text-gray-300 leading-relaxed mb-8">
-            Sorry, this project cant sopport live demo contact <span className="text-gradient-neon-short font-semibold">Alwen T. Casagan</span> for Inquire.
+            Sorry, this project cant sopport live demo contact <span className="text-gradient-neon-short font-semibold">Alwin T. Casagan</span> for Inquire.
           </p>
 
           <button

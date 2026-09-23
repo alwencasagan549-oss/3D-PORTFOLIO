@@ -11,7 +11,7 @@ const projects = [
     name: 'Blackhole',
     description: 'A high-end, interactive 3D simulation of a supermassive black hole. A stunning, cinematic space environment that runs smoothly in your browser using WebGL and Three.js.',
     technologies: ['JavaScript', 'Three.js', 'WebGL', 'Vite', 'React'],
-    githubUrl: 'https://github.com/alwencasagan549-oss/Blackhole',
+    githubUrl: 'https://github.com/alwincasagan549-oss/Blackhole',
     liveUrl: 'https://blackhole1.vercel.app/',
     image: '/images/blackhole.png',
     year: '2026'
@@ -21,7 +21,7 @@ const projects = [
     name: 'Alvin AI Voice Assistant',
     description: 'An AI-powered voice assistant with natural language processing capabilities, designed for seamless voice interactions and intelligent task automation.',
     technologies: ['Python', 'TensorFlow', 'NLP', 'Node.js', 'Speech Recognition'],
-    githubUrl: 'https://github.com/alwencasagan549-oss',
+    githubUrl: 'https://github.com/alwincasagan549-oss',
     liveUrl: '/unavailable',
     image: '/images/alvin-ai-voice-assistant.webp',
     year: '2025'
@@ -31,7 +31,7 @@ const projects = [
     name: 'BrgySync Management System',
     description: 'A comprehensive PHP web app for managing barangay operations — resident records, document requests with QR verification, blotter cases, and financial transactions with role-based access.',
     technologies: ['PHP', 'MySQL', 'Bootstrap 5', 'XAMPP', 'SMS API'],
-    githubUrl: 'https://github.com/alwencasagan549-oss/BrgySync-Management-System',
+    githubUrl: 'https://github.com/alwincasagan549-oss/BrgySync-Management-System',
     liveUrl: 'https://by.free.nf/',
     image: '/images/brgysync.png',
     year: '2025'
@@ -41,7 +41,7 @@ const projects = [
     name: 'EduPortal',
     description: 'A premium, production-ready Assignment Portal for students and educators with comprehensive assignment management, tracking, and collaboration features.',
     technologies: ['PHP', 'MySQL', 'Bootstrap', 'JavaScript', 'XAMPP'],
-    githubUrl: 'https://github.com/alwencasagan549-oss/EduPortal',
+    githubUrl: 'https://github.com/alwincasagan549-oss/EduPortal',
     liveUrl: 'https://reesnhs.l.cd',
     image: '/images/eduportal.png',
     year: '2025'
@@ -51,7 +51,7 @@ const projects = [
     name: 'Inventory & Borrowing System',
     description: 'A centralized system for managing inventory tracking and item borrowing operations, designed to streamline resource management and accountability.',
     technologies: ['JavaScript', 'Node.js', 'MongoDB', 'Express', 'EJS'],
-    githubUrl: 'https://github.com/alwencasagan549-oss/IBS',
+    githubUrl: 'https://github.com/alwincasagan549-oss/IBS',
     liveUrl: '/unavailable',
     image: '/images/inventory-borrowing-system-v2.webp',
     year: '2025'
@@ -61,7 +61,7 @@ const projects = [
     name: 'AllWhenQuiz',
     description: 'A high-performance, real-time classroom assessment application for creating, managing, and evaluating quizzes with live results and analytics.',
     technologies: ['Svelte', 'JavaScript', 'Real-time', 'Firebase', 'CSS'],
-    githubUrl: 'https://github.com/alwencasagan549-oss/AllWhenQuiz',
+    githubUrl: 'https://github.com/alwincasagan549-oss/AllWhenQuiz',
     liveUrl: 'https://allwhenquiz.example.com',
     image: '/images/allwhen-quiz.webp',
     year: '2025'

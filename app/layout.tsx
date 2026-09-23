@@ -20,26 +20,52 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://alwen.vercel.app"),
+  metadataBase: new URL("https://alwincasagan.vercel.app"),
   title: {
     default: "Alwin T. Casagan — Full-Stack Developer & System Architect",
     template: "%s | Alwin T. Casagan",
   },
-  description: "Portfolio of Alwin T. Casagan — Full-stack developer and system architect specializing in React, Next.js, TypeScript, and scalable web applications.",
-  keywords: ["Alwin Casagan", "Alwin T. Casagan", "full-stack developer", "system architect", "React", "Next.js", "TypeScript", "portfolio"],
+  description: "Portfolio of Alwin T. Casagan — Full-stack developer and system architect specializing in React, Next.js, TypeScript, Node.js, and scalable web applications.",
+  keywords: [
+    "Alwin Casagan",
+    "Alwin T. Casagan",
+    "full-stack developer",
+    "system architect",
+    "web developer",
+    "React",
+    "Next.js",
+    "TypeScript",
+    "portfolio",
+    "JavaScript",
+    "Node.js",
+    "frontend",
+    "backend",
+    "software engineer",
+  ],
   authors: [{ name: "Alwin T. Casagan" }],
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://alwen.vercel.app",
+    url: "https://alwincasagan.vercel.app",
     title: "Alwin T. Casagan — Full-Stack Developer & System Architect",
-    description: "Portfolio of Alwin T. Casagan — Full-stack developer and system architect specializing in React, Next.js, TypeScript, and scalable web applications.",
+    description: "Portfolio of Alwin T. Casagan — Full-stack developer and system architect specializing in React, Next.js, TypeScript, Node.js, and scalable web applications.",
     siteName: "Alwin T. Casagan Portfolio",
   },
   twitter: {
     card: "summary_large_image",
     title: "Alwin T. Casagan — Full-Stack Developer & System Architect",
-    description: "Portfolio of Alwin T. Casagan — Full-stack developer and system architect specializing in React, Next.js, TypeScript, and scalable web applications.",
+    description: "Portfolio of Alwin T. Casagan — Full-stack developer and system architect specializing in React, Next.js, TypeScript, Node.js, and scalable web applications.",
   },
   alternates: {
     canonical: "/",
@@ -76,7 +102,7 @@ export default function RootLayout({
         />
         <div className="relative z-[1]">{children}</div>
 
-        {/* Person microdata — TODO: Replace with actual data */}
+        {/* Person microdata */}
         <Script
           id="person-microdata"
           type="application/ld+json"
@@ -85,17 +111,64 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "Person",
               "name": "Alwin T. Casagan",
-              "url": "https://alwen.vercel.app",
+              "url": "https://alwincasagan.vercel.app",
+              "image": "https://alwincasagan.vercel.app/images/profile.webp",
               "jobTitle": "Full-Stack Developer & System Architect",
+              "description": "Full-stack developer and system architect specializing in React, Next.js, TypeScript, Node.js, and scalable web applications.",
               "sameAs": [
-                "https://github.com/alwencasagan549-oss",
-                "https://www.linkedin.com/in/alwen-casagan-810b253ba",
+                "https://github.com/alwincasagan549-oss",
+                "https://www.linkedin.com/in/alwin-casagan-810b253ba",
               ],
               "worksFor": {
                 "@type": "Organization",
                 "name": "Self-Employed / Freelance",
               },
-              "description": "Full-stack developer and system architect specializing in React, Next.js, TypeScript, and scalable web applications.",
+              "knowsAbout": [
+                "React",
+                "Next.js",
+                "TypeScript",
+                "Node.js",
+                "JavaScript",
+                "System Architecture",
+                "Web Development",
+                "Frontend Development",
+                "Backend Development",
+                "Three.js",
+                "WebGL",
+                "Framer Motion",
+                "Tailwind CSS",
+                "PHP",
+                "MySQL",
+                "MongoDB",
+                "Express",
+                "Vite",
+              ],
+              "knowsLanguage": ["English", "Tagalog"],
+            }),
+          }}
+        />
+
+        {/* Website microdata */}
+        <Script
+          id="website-microdata"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "name": "Alwin T. Casagan Portfolio",
+              "url": "https://alwincasagan.vercel.app",
+              "description": "Portfolio of Alwin T. Casagan — Full-stack developer and system architect specializing in React, Next.js, TypeScript, and scalable web applications.",
+              "author": {
+                "@type": "Person",
+                "name": "Alwin T. Casagan",
+              },
+              "inLanguage": "en",
+              "potentialAction": {
+                "@type": "SearchAction",
+                "target": "https://alwincasagan.vercel.app/?s={search_term_string}",
+                "query-input": "required name=search_term_string",
+              },
             }),
           }}
         />
