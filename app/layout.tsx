@@ -88,11 +88,9 @@ export default function RootLayout({
         <meta property="og:site_name" content="Alwin T. Casagan" />
         <link rel="preconnect" href="https://prod.spline.design" />
         <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
-        <Script
-          id="adsbygoogle-loader"
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7092127443572291"
-          strategy="beforeInteractive"
+        <script
           async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7092127443572291"
           crossOrigin="anonymous"
         />
       </head>
