@@ -62,7 +62,7 @@ export const metadata: Metadata = {
     url: baseUrl,
     title: "Alwin T. Casagan — Full-Stack Developer & System Architect",
     description: "Portfolio of Alwin T. Casagan — Full-stack developer and system architect specializing in React, Next.js, TypeScript, Node.js, and scalable web applications.",
-    siteName: "Alwin T. Casagan Portfolio",
+    siteName: "Alwin T. Casagan",
   },
   twitter: {
     card: "summary_large_image",
@@ -85,7 +85,16 @@ export default function RootLayout({
       className={`${orbitron.variable} ${inter.variable} h-full antialiased`}
     >
       <head>
+        <meta property="og:site_name" content="Alwin T. Casagan" />
         <link rel="preconnect" href="https://prod.spline.design" />
+        <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
+        <Script
+          id="adsbygoogle-loader"
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7092127443572291"
+          strategy="beforeInteractive"
+          async
+          crossOrigin="anonymous"
+        />
       </head>
       <body className="min-h-full flex flex-col bg-black">
         <Analytics />
@@ -158,7 +167,8 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "WebSite",
-              "name": "Alwin T. Casagan Portfolio",
+              "name": "Alwin T. Casagan",
+              "alternateName": ["Alwin Casagan"],
               "url": baseUrl,
               "description": "Portfolio of Alwin T. Casagan — Full-stack developer and system architect specializing in React, Next.js, TypeScript, and scalable web applications.",
               "author": {
